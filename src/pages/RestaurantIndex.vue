@@ -12,6 +12,8 @@ export default {
             restaurants: [],
 
             pagination: [],
+
+            types: [],
         }
     },
 
@@ -26,12 +28,14 @@ export default {
     methods: {
         getRestaurant(restaurantApi) {
             axios.get(restaurantApi).then((response) => {
-
+                
+                // console.log(response.data.types);
                 this.restaurants = response.data.results.data;
 
                 this.pagination = response.data.results;
 
-                console.log(response.data.results.data);
+                this.types = response.data.types;
+
             })
         }
 
@@ -40,6 +44,16 @@ export default {
 </script>
 
 <template>
+    <div class="container">
+
+        <form action="" method="post">
+            <select class="form-select my-3" >
+                <option value="">Seleziona</option>
+                <option v-for="(type, index) in types" :key="index" value="">{{ type.name }}</option>
+            </select>
+        </form>
+        
+    </div>
 
     <div id="container" class="container d-flex flex-row flex-wrap justify-content-around mt-3 ">
         <RestaurantCard class="my-3" :restaurant="restaurant" v-for="restaurant in restaurants"></RestaurantCard>
