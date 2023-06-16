@@ -10,7 +10,7 @@ export default {
   },
   components: {
     AppHeader,
-    AppFooter
+    AppFooter,
   }
 }
 </script>
@@ -18,7 +18,9 @@ export default {
 <template>
   <div class="fluid-container">
     <AppHeader></AppHeader>
-    <RouterView></RouterView>
+
+    <routerView></routerView>
+
     <AppFooter></AppFooter>
 
   </div>
