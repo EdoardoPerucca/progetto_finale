@@ -8,22 +8,49 @@ export default {
 
     props: {
         restaurant: Object,
-    }
+    },
+
+    methods: {
+        getImage(){
+           let  path = 'https://static.vecteezy.com/ti/vettori-gratis/p1/5359703-cibo-icone-pixel-perfetto-illustrazione-vettoriale.jpg'
+            if (this.restaurant.cover_image == path) {
+                return path
+            } else {
+                // console.log(this.restaurant.cover_image)
+                return 'http://127.0.0.1:8000/storage/' + this.restaurant.cover_image
+                
+            }
+        }
+    },
 }
 
 
 </script>
 
 <template>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
+
+    
+
+    <div class="card py-3" style="width:calc(80% / 3 )">
+
+        <img :src="getImage()" class="card-img-top" alt="...">
+
         <div class="card-body">
+
             <h5 class="card-title">{{ restaurant.activity_name }}</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item"><b>Via: </b>{{ restaurant.address }}</li>
+                <li class="list-group-item"><b>Tel: </b>{{ restaurant.phone_number }}</li>
+                
+            </ul>
+
             <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
     </div>
+
+    
+    
 </template>
 
 <style lang="scss" scoped></style>

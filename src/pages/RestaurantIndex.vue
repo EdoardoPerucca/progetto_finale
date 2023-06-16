@@ -41,11 +41,11 @@ export default {
 
 <template>
 
-    <div class="container d-flex flex-row flex-wrap gap-4">
-        <RestaurantCard :restaurant="restaurant" v-for="restaurant in restaurants"></RestaurantCard>
+    <div id="container" class="container d-flex flex-row flex-wrap justify-content-around mt-3 ">
+        <RestaurantCard class="my-3" :restaurant="restaurant" v-for="restaurant in restaurants"></RestaurantCard>
     </div>
 
-    <div class="container d-flex justify-content-center mt-5 gap-2">
+    <div class="container d-flex justify-content-center mt-5 gap-1 ">
 
         <button @click="getRestaurant(link.url)" :class="link.active ? 'active' : '' "  v-for="link in pagination.links" class="btn btn-secondary" v-html="link.label"></button>
 
@@ -53,4 +53,6 @@ export default {
 
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+    
+</style>
