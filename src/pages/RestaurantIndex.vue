@@ -5,16 +5,17 @@ import RestaurantCard from '../components/RestaurantCard.vue';
 
 
 export default {
-    name: 'RestaurantCard',
     data() {
         return {
-            restaurantApi: 'http://127.0.0.1:8000/api/resturant',
+            restaurantApi: 'http://127.0.0.1:8000/api/restaurants?page=2',
 
             restaurants: [],
+
+            pagination: [],
         }
     },
 
-    component: {
+    components: {
         RestaurantCard,
     },
 
@@ -24,8 +25,13 @@ export default {
 
     methods: {
         getRestaurant(restaurantApi) {
-            axios.get(restaurantApi).then(response => {
+            axios.get(restaurantApi).then((response) => {
+
                 this.restaurants = response.data.results.data;
+
+                this.pagination = response.data.results;
+
+                console.log(response.data.results.data);
             })
         }
 
@@ -34,9 +40,17 @@ export default {
 </script>
 
 <template>
-    <div v-for="restaurant in this.restaurants">
-        <RestaurantCard :restaurant="restaurant"></RestaurantCard>
+
+    <div class="container d-flex flex-row flex-wrap gap-4">
+        <RestaurantCard :restaurant="restaurant" v-for="restaurant in restaurants"></RestaurantCard>
     </div>
+
+    <div class="container d-flex justify-content-center mt-5 gap-2">
+
+        <button @click="getRestaurant(link.url)" :class="link.active ? 'active' : '' "  v-for="link in pagination.links" class="btn btn-secondary" v-html="link.label"></button>
+
+    </div>
+
 </template>
 
 <style lang="scss" scoped></style>
