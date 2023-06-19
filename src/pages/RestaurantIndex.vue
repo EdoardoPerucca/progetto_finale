@@ -63,7 +63,7 @@ export default {
     <div class="container">
 
         <form @submit.prevent="" action="" >
-            <select name="type_id" class="form-select my-3" v-model="selectedType" @change="getRestaurant()">
+            <select name="type_id" class="form-select my-3" v-model="selectedType" @change="getRestaurant(this.restaurantApi)">
                 <option value="">Tutti i ristoranti</option>
                 <option v-for="(type, index) in types" :key="index" :value="type.id">{{ type.name }}</option>
             </select>
