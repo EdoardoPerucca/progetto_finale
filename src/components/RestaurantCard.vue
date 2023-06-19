@@ -50,7 +50,8 @@ export default {
                 
             </ul>
 
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <router-link class="btn btn-primary" :to="{name: 'restaurantMenu', params: {slug: restaurant.slug}}">Visualizza menu</router-link>
+
         </div>
     </div>
 
