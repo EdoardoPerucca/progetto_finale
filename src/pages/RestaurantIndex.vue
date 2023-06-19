@@ -7,7 +7,7 @@ import RestaurantCard from '../components/RestaurantCard.vue';
 export default {
     data() {
         return {
-            restaurantApi: 'http://127.0.0.1:8000/api/restaurants?page=1&type_id=',
+            restaurantApi: 'http://127.0.0.1:8000/api/restaurants?page=1',
 
             restaurants: [],
 
@@ -28,12 +28,12 @@ export default {
     },
 
     created() {
-        this.getRestaurant()
+        this.getRestaurant(this.restaurantApi);
     },
 
     methods: {
-        getRestaurant() {
-            axios.get(this.restaurantApi + this.selectedType).then((response) => {
+        getRestaurant(url) {
+            axios.get(url + '&type_id=' + this.selectedType).then((response) => {
                 
                 if(response.data.success == true){
 
@@ -44,6 +44,8 @@ export default {
                     this.pagination = response.data.results;
     
                     this.types = response.data.types;
+
+                    console.log(this.pagination);
                 }else{
                     this.restaurantFound = false
 
