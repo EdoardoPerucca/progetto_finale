@@ -43,10 +43,9 @@ export default {
                 <li class="list-group-item"><b>Via: </b>{{ restaurant.address }}</li>
                 <li class="list-group-item"><b>Tel: </b>{{ restaurant.phone_number }}</li>
                 <li class="list-group-item"><b>Tipologia: </b>
-                    <span v-if="restaurant.types.length != 0" v-for="type in restaurant.types" >
-                        {{ type.name + ', ' }}
+                    <span  v-for="restaurantType in restaurant.types">
+                        {{ restaurantType.name + ', ' }}
                     </span>
-                    <span v-else>nessuna</span>
                 </li>
                 
             </ul>

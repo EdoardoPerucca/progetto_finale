@@ -45,7 +45,7 @@ export default {
     
                     this.types = response.data.types;
 
-                    console.log(this.pagination);
+                    // console.log(this.types);
                 }else{
                     this.restaurantFound = false
 
@@ -62,10 +62,10 @@ export default {
 <template>
     <div class="container">
 
-        <form @submit.prevent="" action="" >
-            <select name="type_id" class="form-select my-3" v-model="selectedType" @change="getRestaurant(this.restaurantApi)">
+        <form @submit.prevent="">
+            <select name="type_id" class="form-select my-3" v-model="selectedType" @change="getRestaurant(restaurantApi)">
                 <option value="">Tutti i ristoranti</option>
-                <option v-for="(type, index) in types" :key="index" :value="type.id">{{ type.name }}</option>
+                <option v-for="(restaurantType, index) in types" :key="index" :value="restaurantType.id">{{ restaurantType.name }}</option>
             </select>
         </form>
 
