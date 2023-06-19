@@ -63,7 +63,7 @@ export default {
         <router-link class="btn btn-primary my-3" :to="{name: 'restaurant'}">Vai indietro</router-link>
 
         
-        <div class="card py-3 text-center">
+        <div class="card border-0 py-3 text-center">
 
             <img :src="getImage()" class="card-img-top" alt="...">
 
@@ -106,8 +106,6 @@ export default {
 <style lang="scss" scoped>
     
     .card {
-
-        border: none;
 
         img {
             width: 100%;
