@@ -80,11 +80,11 @@ export default {
             <ul class="list-group-flush">
 
                 <li class="list-group-item"><b>Descrizione: </b>{{ dish.description }}</li>
-                <li class="list-group-item"><b>Intolleranze: </b>{{ dish.intolerance }}</li>
+                <li class="list-group-item"><b>Intolleranze: </b> 
+                <span>{{dish.intolerance != null ? dish.intolerance : 'Nessuna'}}</span>
+            </li>
                 <li class="list-group-item"><b>Prezzo: </b> {{ dish.price }} €</li>
                 <li class="list-group-item"><b>Disponibilità: </b> {{ dish.availability ? 'Disponibile' : 'Non Disponibile' }}</li>
-
-                <a href="#" @click="addToCart(dish)">Aggiungi al carrello</a>
                 
             </ul>
 
@@ -98,17 +98,12 @@ export default {
 <style lang="scss" scoped>
     
     .card {
-
-        
-
         img {
-
             height: 200px;
             width: 200px;
             object-fit: cover;
 
         }
-
     }
 
 </style>
