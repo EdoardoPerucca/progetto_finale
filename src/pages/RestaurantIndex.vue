@@ -15,7 +15,7 @@ export default {
 
             types: [],
 
-            selectedType: '',
+            selectedType: [],
 
             restaurantFound: true,
 
@@ -32,26 +32,32 @@ export default {
     },
 
     methods: {
+
         getRestaurant(url) {
-            axios.get(url + '&type_id=' + this.selectedType).then((response) => {
+
+            let typeUrl = ''
+
+            for (let i = 0; i < this.selectedType.length; i++) {
+                
+                typeUrl = typeUrl + '&type_id[]=' + this.selectedType[i]
+            }
+                  
+            axios.get(url + typeUrl ).then((response) => {
                 
                 if(response.data.success == true){
-
+                    
                     this.restaurantFound = true
-
+                    
                     this.restaurants = response.data.results.data;
     
                     this.pagination = response.data.results;
-    
+                    
                     this.types = response.data.types;
-
-                    // console.log(this.types);
+                                       
                 }else{
                     this.restaurantFound = false
-
                     this.errorMessage = response.data.error
                 }
-
             })
         }
 
@@ -60,15 +66,22 @@ export default {
 </script>
 
 <template>
+
     <div class="container">
-
-        <form @submit.prevent="">
-            <select name="type_id" class="form-select my-3" v-model="selectedType" @change="getRestaurant(restaurantApi)">
-                <option value="">Tutti i ristoranti</option>
-                <option v-for="(restaurantType, index) in types" :key="index" :value="restaurantType.id">{{ restaurantType.name }}</option>
-            </select>
-        </form>
-
+        <div class="dropdown text-center my-3">
+            <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Filtra per tipologia
+            </button>
+            <ul class="dropdown-menu text-center ">
+                <form @submit.prevent="">
+                    <div v-for="(type, index) in types" :key="index">
+                        <label  for="type_id">{{type.name}}</label>
+                        <input :value="type.id" type="checkbox" name="types_id[]" id="type_id" v-model="selectedType">
+                    </div>
+                    <button class="btn btn-outline-success" @click="getRestaurant(restaurantApi)" type="submit">Filtra</button>
+                </form>
+            </ul>
+        </div>
     </div>
 
     <div id="container" class="container d-flex flex-row flex-wrap justify-content-around mt-3 ">
