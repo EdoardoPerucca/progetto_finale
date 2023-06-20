@@ -1,17 +1,20 @@
 <script>
 import axios from 'axios';
+import {store} from "../store.js";
 
 import DishCard from '../components/DishCard.vue';
 
 export default {
     data() {
         return {
+
+            store,
             
             restaurant: {},
 
             url: 'http://127.0.0.1:8000/',
 
-            apiURL: 'http://127.0.0.1:8000/api/restaurants/'
+            apiURL: 'http://127.0.0.1:8000/api/restaurants/',
 
         }
     },
@@ -47,6 +50,24 @@ export default {
                 return 'http://127.0.0.1:8000/storage/' + this.restaurant.cover_image;
                 
             }
+        },
+
+        removeFromCart(dish) {
+
+            if(this.store.cart[0].quantity == 1) {
+
+                this.store.cart.splice(this.store.cart.indexOf(dish), 1);
+                this.store.total -= parseFloat(dish.price);
+
+            } else {
+
+                this.store.cart[0].quantity--;
+                
+                this.store.total -= parseFloat(dish.price);
+                
+            }
+
+
         }
 
     }
@@ -93,8 +114,38 @@ export default {
         <div class="container py-5">
 
             <DishCard :dish="dish" v-for="dish in restaurant.dishes"></DishCard>
+            
 
         </div>
+
+
+        <table class="table mb-4 container">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Prezzo</th>
+                    <th scope="col">Quantità</th>
+                    <th scope="col">Rimuovi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(dish, index) in store.cart" :key="index">
+                    <td>{{ dish.name }}</td>
+                    <td>€ {{dish.price}}</td>
+                    <td>{{ dish.quantity }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" @click="removeFromCart(dish)">
+                            Rimuovi
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Totale</th>
+                    <td>€ {{ this.store.total.toFixed(2) }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
 
         
 

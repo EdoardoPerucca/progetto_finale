@@ -1,7 +1,13 @@
 <script>
+
+import {store} from "../store.js";
+
+
 export default {
     data() {
         return {
+
+            store,
 
         }
     },
@@ -24,7 +30,37 @@ export default {
                 return 'http://127.0.0.1:8000/storage/' + this.dish.cover_image;
                 
             }
-        }
+        },
+
+        addToCart(dish) {
+
+            const existingItem = this.store.cart.find(item => item.id === dish.id);
+
+            let singlePrice = parseFloat(dish.price);
+
+            if(existingItem) {
+
+                this.store.cart[0].quantity++;
+
+                this.store.total += parseFloat(singlePrice.toFixed(2));
+
+            } else {
+
+                this.store.cart.push({
+                    id: dish.id,
+                    name: dish.name,
+                    price: singlePrice,
+                    quantity: 1,
+                });
+
+                // this.store.cart.push(dish);
+                this.store.dishIds.push(dish.id);
+                this.store.total += singlePrice;
+
+            }
+
+        },
+
     },
 }
 
@@ -47,6 +83,8 @@ export default {
                 <li class="list-group-item"><b>Intolleranze: </b>{{ dish.intolerance }}</li>
                 <li class="list-group-item"><b>Prezzo: </b> {{ dish.price }} €</li>
                 <li class="list-group-item"><b>Disponibilità: </b> {{ dish.availability ? 'Disponibile' : 'Non Disponibile' }}</li>
+
+                <a href="#" @click="addToCart(dish)">Aggiungi al carrello</a>
                 
             </ul>
 
