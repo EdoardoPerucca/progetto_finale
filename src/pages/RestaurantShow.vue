@@ -54,24 +54,22 @@ export default {
 
         removeFromCart(dish) {
 
-            if(this.store.cart[0].quantity == 1) {
+            const existingItem = this.store.cart.find(item => item.id === dish.id);
 
-                this.store.cart.splice(this.store.cart.indexOf(dish), 1);
+            if (existingItem) {
+                
+                if (existingItem.quantity === 1) {
+                    this.store.cart.splice(this.store.cart.indexOf(existingItem), 1);
+                } else {
+                    existingItem.quantity--;
+                }
+
                 this.store.total -= parseFloat(dish.price);
 
-            } else {
-
-                this.store.cart[0].quantity--;
-                
-                this.store.total -= parseFloat(dish.price);
-                
             }
 
-
         }
-
     }
-
 
 }
 </script>

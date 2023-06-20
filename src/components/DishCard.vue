@@ -38,14 +38,10 @@ export default {
 
             let singlePrice = parseFloat(dish.price);
 
-            if(existingItem) {
-
-                this.store.cart[0].quantity++;
-
+            if (existingItem) {
+                existingItem.quantity++;
                 this.store.total += parseFloat(singlePrice.toFixed(2));
-
             } else {
-
                 this.store.cart.push({
                     id: dish.id,
                     name: dish.name,
@@ -53,12 +49,9 @@ export default {
                     quantity: 1,
                 });
 
-                // this.store.cart.push(dish);
                 this.store.dishIds.push(dish.id);
                 this.store.total += singlePrice;
-
             }
-
         },
 
     },
@@ -84,7 +77,7 @@ export default {
                 <li class="list-group-item"><b>Prezzo: </b> {{ dish.price }} €</li>
                 <li class="list-group-item"><b>Disponibilità: </b> {{ dish.availability ? 'Disponibile' : 'Non Disponibile' }}</li>
 
-                <a href="#" @click="addToCart(dish)">Aggiungi al carrello</a>
+                <a class="btn btn-primary mt-3" @submit.prevent="" @click="addToCart(dish, index)">Aggiungi al carrello</a>
                 
             </ul>
 
