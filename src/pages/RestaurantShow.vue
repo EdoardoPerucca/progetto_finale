@@ -70,20 +70,20 @@ export default {
 
         },
 
-        placeOrder() {
-            const order = {
-                dishes: this.store.cart
-            };
-            console.log(order)
-            axios.post('http://127.0.0.1:8000/api/orders', order)
-            .then(response => {
-                console.log('Ordine effettuato:', response.data);
-                this.cart = [];
-            })
-            .catch(error => {
-                console.error('Si è verificato un errore durante il salvataggio dell\'ordine:', error);
-            });
-        }
+        // placeOrder() {
+        //     const order = {
+        //         dishes: this.store.cart
+        //     };
+        //     console.log(order)
+        //     axios.post('http://127.0.0.1:8000/api/orders', order)
+        //     .then(response => {
+        //         console.log('Ordine effettuato:', response.data);
+        //         this.cart = [];
+        //     })
+        //     .catch(error => {
+        //         console.error('Si è verificato un errore durante il salvataggio dell\'ordine:', error);
+        //     });
+        // }
     }
 
 }
@@ -157,16 +157,61 @@ export default {
                     <td>€ {{ this.store.total.toFixed(2) }}</td>
                     <td></td>
                     <td>
-                        <button class="btn btn-sm btn-danger" @click="placeOrder()">
+                        <!-- <button class="btn btn-sm btn-danger" @click="placeOrder()">
                             Paga
+                        </button> -->
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Vedi Carrello
                         </button>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                <table class="table mb-4 container">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Prezzo</th>
+                            <th scope="col" class="text-center">Quantità</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(dish, index) in store.cart" :key="index">
+                            <td>{{ dish.name }}</td>
+                            <td>€ {{dish.price}}</td>
+                            <td class="text-center">{{ dish.quantity }}</td>
+                        </tr>
+                        <tr>
+                            <th>Totale</th>
+                            <td>€ {{ this.store.total.toFixed(2) }}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <router-link :to="{name: 'cart'}" class="btn btn-primary">Checkout</router-link>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        
     </div>
 </template>
 
