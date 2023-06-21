@@ -54,17 +54,24 @@ export default {
 
         removeFromCart(dish) {
 
-            const existingItem = this.store.cart.find(item => item.id === dish.id);
+            // const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart') || '[]');
+
+            const existingItem = this.store.cartFromLocalStorage.find(item => item.id === dish.id);
+
 
             if (existingItem) {
                 
                 if (existingItem.quantity === 1) {
-                    this.store.cart.splice(this.store.cart.indexOf(existingItem), 1);
+                    this.store.cartFromLocalStorage.splice(this.store.cartFromLocalStorage.indexOf(existingItem), 1);
                 } else {
                     existingItem.quantity--;
                 }
 
-                this.store.total -= parseFloat(dish.price);
+                this.store.totalFromLocalStorage -= parseFloat(dish.price);
+                this.store.totalFromLocalStorage = parseFloat(this.store.totalFromLocalStorage.toFixed(2));
+
+                localStorage.setItem('cart', JSON.stringify(this.store.cartFromLocalStorage));
+                localStorage.setItem('total', JSON.stringify(this.store.totalFromLocalStorage));
 
             }
 
@@ -142,7 +149,7 @@ export default {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(dish, index) in store.cart" :key="index">
+                <tr v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
                     <td>{{ dish.name }}</td>
                     <td>€ {{dish.price}}</td>
                     <td>{{ dish.quantity }}</td>
@@ -154,7 +161,7 @@ export default {
                 </tr>
                 <tr>
                     <th>Totale</th>
-                    <td>€ {{ this.store.total.toFixed(2) }}</td>
+                    <td>€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
                     <td></td>
                     <td>
                         <!-- <button class="btn btn-sm btn-danger" @click="placeOrder()">
@@ -180,7 +187,7 @@ export default {
             </div>
             <div class="modal-body">
                 
-                <table v-if="this.store.cart.length != 0" class="table mb-4 container">
+                <table v-if="this.store.cartFromLocalStorage.length != 0" class="table mb-4 container">
                     <thead>
                         <tr>
                             <th scope="col">Nome</th>
@@ -189,14 +196,14 @@ export default {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(dish, index) in store.cart" :key="index">
+                        <tr v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
                             <td>{{ dish.name }}</td>
                             <td>€ {{dish.price}}</td>
                             <td class="text-center">{{ dish.quantity }}</td>
                         </tr>
                         <tr>
                             <th>Totale</th>
-                            <td>€ {{ this.store.total.toFixed(2) }}</td>
+                            <td>€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
                             <td></td>
                         </tr>
                     </tbody>

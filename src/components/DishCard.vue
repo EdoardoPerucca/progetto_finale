@@ -1,5 +1,6 @@
 <script>
 
+import { effect } from "vue";
 import {store} from "../store.js";
 
 
@@ -34,15 +35,23 @@ export default {
 
         addToCart(dish) {
 
-            const existingItem = this.store.cart.find(item => item.id === dish.id);
+            // const cartFromLocalStorage = JSON.parse(localStorage.getItem('cart') || '[]');
+
+            const existingItem = this.store.cartFromLocalStorage.find(item => item.id === dish.id);
+
 
             let singlePrice = parseFloat(dish.price);
 
             if (existingItem) {
                 existingItem.quantity++;
-                this.store.total += parseFloat(singlePrice.toFixed(2));
+                this.store.totalFromLocalStorage += parseFloat(singlePrice.toFixed(2));
+                this.store.totalFromLocalStorage = parseFloat(this.store.totalFromLocalStorage.toFixed(2));
+
+                localStorage.setItem('cart', JSON.stringify(this.store.cartFromLocalStorage));
+                localStorage.setItem('total', JSON.parse(this.store.totalFromLocalStorage));
+
             } else {
-                this.store.cart.push({
+                this.store.cartFromLocalStorage.push({
                     id: dish.id,
                     name: dish.name,
                     price: singlePrice,
@@ -50,7 +59,11 @@ export default {
                 });
 
                 this.store.dishIds.push(dish.id);
-                this.store.total += singlePrice;
+                this.store.totalFromLocalStorage += singlePrice;
+                this.store.totalFromLocalStorage = parseFloat(this.store.totalFromLocalStorage.toFixed(2));
+
+                localStorage.setItem('cart', JSON.stringify(this.store.cartFromLocalStorage));
+                localStorage.setItem('total', JSON.parse(this.store.totalFromLocalStorage));
             }
         },
 
