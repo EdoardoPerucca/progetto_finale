@@ -29,6 +29,10 @@ export default {
 
             this.restaurant = response.data.results;
 
+            this.store.actualRestaurantId = response.data.results.id;
+
+            localStorage.setItem('slug', JSON.stringify(this.restaurant.slug));
+
             document.title = 'Restaurant: ' + this.restaurant.activity_name;
 
         })
@@ -74,6 +78,16 @@ export default {
                 localStorage.setItem('total', JSON.stringify(this.store.totalFromLocalStorage));
 
             }
+
+        },
+
+        clearCart() {
+
+            localStorage.removeItem('cart');
+            localStorage.removeItem('total');
+            localStorage.removeItem('id');
+
+            return location.reload();
 
         },
 
@@ -139,6 +153,9 @@ export default {
         </div>
 
 
+        <span v-if="this.store.cartFromLocalStorage.length == 0"></span>
+        <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id" class="ps-1 pb-4 text-center d-flex justify-content-center fs-2 text-danger">Hai già un ordine in un altro Ristorante!</span>
+
         <table class="table mb-4 container">
             <thead>
                 <tr>
@@ -149,11 +166,11 @@ export default {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
-                    <td>{{ dish.name }}</td>
-                    <td>€ {{dish.price}}</td>
-                    <td>{{ dish.quantity }}</td>
-                    <td>
+                <tr  v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
+                    <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.name }}</td>
+                    <td v-if="this.restaurant.id == dish.restaurant_id">€ {{dish.price}}</td>
+                    <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.quantity }}</td>
+                    <td v-if="this.restaurant.id == dish.restaurant_id">
                         <button class="btn btn-sm btn-danger" @click="removeFromCart(dish)">
                             Rimuovi
                         </button>
@@ -161,7 +178,8 @@ export default {
                 </tr>
                 <tr>
                     <th>Totale</th>
-                    <td>€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
+                    <td v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
+                    <td v-else>€ 0.00</td>
                     <td></td>
                     <td>
                         <!-- <button class="btn btn-sm btn-danger" @click="placeOrder()">
@@ -172,6 +190,14 @@ export default {
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                             Vedi Carrello
                         </button>
+                        
+                        <button v-if="this.store.cartFromLocalStorage.length != 0" type="button" class="ms-2 btn btn-danger" @click="clearCart()">
+                            Elimina Carrello
+                        </button>
+                        <button v-else type="button" class="ms-2 btn btn-danger disabled">
+                            Elimina Carrello
+                        </button>
+
                     </td>
                 </tr>
             </tbody>
@@ -197,13 +223,14 @@ export default {
                     </thead>
                     <tbody>
                         <tr v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
-                            <td>{{ dish.name }}</td>
-                            <td>€ {{dish.price}}</td>
-                            <td class="text-center">{{ dish.quantity }}</td>
+                            <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.name }}</td>
+                            <td v-if="this.restaurant.id == dish.restaurant_id">€ {{dish.price}}</td>
+                            <td v-if="this.restaurant.id == dish.restaurant_id" class="text-center">{{ dish.quantity }}</td>
                         </tr>
                         <tr>
                             <th>Totale</th>
-                            <td>€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
+                            <td v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
+                            <td v-else>€ 0.00</td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -215,7 +242,7 @@ export default {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                <button v-if="this.store.cart.length != 0" type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                <button v-if="this.store.cartFromLocalStorage.length != 0 && this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" type="button" class="btn btn-primary" data-bs-dismiss="modal">
                     <router-link :to="{name: 'cart'}" class="text-white text-decoration-none">Checkout</router-link>
                 </button>
 
