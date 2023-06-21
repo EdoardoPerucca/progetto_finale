@@ -175,12 +175,12 @@ export default {
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Carrello</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 
-                <table class="table mb-4 container">
+                <table v-if="this.store.cart.length != 0" class="table mb-4 container">
                     <thead>
                         <tr>
                             <th scope="col">Nome</th>
@@ -201,11 +201,20 @@ export default {
                         </tr>
                     </tbody>
                 </table>
+                <div v-else>
+                    Il carrello è vuoto!
+                </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                <router-link :to="{name: 'cart'}" class="btn btn-primary">Checkout</router-link>
+                <button v-if="this.store.cart.length != 0" type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <router-link :to="{name: 'cart'}" class="text-white text-decoration-none">Checkout</router-link>
+                </button>
+
+                <button v-else type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled>
+                    <router-link :to="{name: 'cart'}" class="text-white text-decoration-none">Checkout</router-link>
+                </button>
             </div>
             </div>
         </div>
