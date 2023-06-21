@@ -17,6 +17,10 @@ export default {
         dish: Object,
     },
 
+    mounted() {
+
+    },
+
     methods: {
         getImage(){
 
@@ -50,21 +54,32 @@ export default {
                 localStorage.setItem('cart', JSON.stringify(this.store.cartFromLocalStorage));
                 localStorage.setItem('total', JSON.parse(this.store.totalFromLocalStorage));
 
+
+                
             } else {
+
+                console.log(dish);
+
                 this.store.cartFromLocalStorage.push({
+                    restaurant_id: dish.restaurant_id,
                     id: dish.id,
                     name: dish.name,
                     price: singlePrice,
                     quantity: 1,
                 });
-
+                
                 this.store.dishIds.push(dish.id);
                 this.store.totalFromLocalStorage += singlePrice;
                 this.store.totalFromLocalStorage = parseFloat(this.store.totalFromLocalStorage.toFixed(2));
-
+                
                 localStorage.setItem('cart', JSON.stringify(this.store.cartFromLocalStorage));
                 localStorage.setItem('total', JSON.parse(this.store.totalFromLocalStorage));
+                localStorage.setItem('id', JSON.parse(this.store.actualRestaurantId));
+                localStorage.setItem('slug', JSON.stringify(this.store.restaurantSlug));
+
             }
+
+            // console.log(this.store.cartFromLocalStorage);
         },
 
     },
@@ -90,7 +105,8 @@ export default {
                 <li class="list-group-item"><b>Prezzo: </b> {{ dish.price }} €</li>
                 <li class="list-group-item"><b>Disponibilità: </b> {{ dish.availability ? 'Disponibile' : 'Non Disponibile' }}</li>
 
-                <a class="btn btn-primary mt-3" @submit.prevent="" @click="addToCart(dish, index)">Aggiungi al carrello</a>
+                <a v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" class="btn btn-primary mt-3" :class="dish.availability ? '' : 'disabled'" @submit.prevent="" @click="addToCart(dish, index)">Aggiungi al carrello</a>
+                <a v-else class="btn btn-primary mt-3 disabled" @submit.prevent="" @click="addToCart(dish, index)" >Aggiungi al carrello</a>
                 
             </ul>
 
@@ -104,8 +120,6 @@ export default {
 <style lang="scss" scoped>
     
     .card {
-
-        
 
         img {
 
