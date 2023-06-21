@@ -68,6 +68,21 @@ export default {
 
             }
 
+        },
+
+        placeOrder() {
+            const order = {
+                dishes: this.store.cart
+            };
+            console.log(order)
+            axios.post('http://127.0.0.1:8000/api/orders', order)
+            .then(response => {
+                console.log('Ordine effettuato:', response.data);
+                this.cart = [];
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore durante il salvataggio dell\'ordine:', error);
+            });
         }
     }
 
@@ -141,6 +156,11 @@ export default {
                     <th>Totale</th>
                     <td>€ {{ this.store.total.toFixed(2) }}</td>
                     <td></td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" @click="placeOrder()">
+                            Paga
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
