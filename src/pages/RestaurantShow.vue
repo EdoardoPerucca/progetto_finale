@@ -29,11 +29,17 @@ export default {
 
             this.restaurant = response.data.results;
 
+            this.store.restaurantName = response.data.results.activity_name;
+
             this.store.actualRestaurantId = response.data.results.id;
+
+            localStorage.setItem('actualId', JSON.parse(response.data.results.id));
 
             localStorage.setItem('slug', JSON.stringify(this.restaurant.slug));
 
             document.title = 'Restaurant: ' + this.restaurant.activity_name;
+
+            console.log(this.store.actualRestaurantId);
 
         })
 
@@ -81,6 +87,44 @@ export default {
 
         },
 
+        addToCart(dish) {
+
+            const existingItem = this.store.cartFromLocalStorage.find(item => item.id === dish.id);
+
+
+            if (existingItem) {
+                
+                existingItem.quantity++;
+
+                this.store.totalFromLocalStorage += parseFloat(dish.price);
+                this.store.totalFromLocalStorage = parseFloat(this.store.totalFromLocalStorage.toFixed(2));
+
+                localStorage.setItem('cart', JSON.stringify(this.store.cartFromLocalStorage));
+                localStorage.setItem('total', JSON.stringify(this.store.totalFromLocalStorage));
+
+            }
+
+        },
+
+        removeDishFromCart(dish) {
+
+            const existingItem = this.store.cartFromLocalStorage.find(item => item.id === dish.id);
+
+
+            if (existingItem) {
+
+                this.store.cartFromLocalStorage.splice(this.store.cartFromLocalStorage.indexOf(existingItem), 1);
+
+                this.store.totalFromLocalStorage = 0;
+                this.store.totalFromLocalStorage = parseFloat(this.store.totalFromLocalStorage.toFixed(2));
+
+                localStorage.setItem('cart', JSON.stringify(this.store.cartFromLocalStorage));
+                localStorage.setItem('total', JSON.stringify(this.store.totalFromLocalStorage));
+
+            }
+
+        },
+
         clearCart() {
 
             localStorage.removeItem('cart');
@@ -88,6 +132,12 @@ export default {
             localStorage.removeItem('id');
 
             return location.reload();
+
+        },
+
+        getRestaurantName() {
+
+            localStorage.setItem('restaurantName', JSON.stringify(this.store.restaurantName));
 
         },
 
@@ -154,24 +204,38 @@ export default {
 
 
         <span v-if="this.store.cartFromLocalStorage.length == 0"></span>
-        <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id" class="ps-1 pb-4 text-center d-flex justify-content-center fs-2 text-danger">Hai già un ordine in un altro Ristorante!</span>
+        <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id" class="ps-1 pb-4 text-center d-flex justify-content-center fs-2 text-danger">
+            Hai già un carrello in un altro Ristorante: {{ this.store.cartFromLocalStorage[0].restaurant_name }} !
+        </span>
 
-        <table class="table mb-4 container">
+        <table class="table mb-4 container text-center">
             <thead>
                 <tr>
                     <th scope="col">Nome</th>
                     <th scope="col">Prezzo</th>
+                    <th scope="col"></th>
                     <th scope="col">Quantità</th>
+                    <th scope="col"></th>
                     <th scope="col">Rimuovi</th>
                 </tr>
             </thead>
             <tbody>
                 <tr  v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
                     <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.name }}</td>
-                    <td v-if="this.restaurant.id == dish.restaurant_id">€ {{dish.price}}</td>
+                    <td v-if="this.restaurant.id == dish.restaurant_id">€ {{dish.price.toFixed(2)}}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger me-2 fw-bold" @click="removeFromCart(dish)">
+                            -
+                        </button>
+                    </td>
                     <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.quantity }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-danger me-2 fw-bold" @click="addToCart(dish)">
+                            +
+                        </button>
+                    </td>
                     <td v-if="this.restaurant.id == dish.restaurant_id">
-                        <button class="btn btn-sm btn-danger" @click="removeFromCart(dish)">
+                        <button class="btn btn-sm btn-danger" @click="removeDishFromCart(dish)">
                             Rimuovi
                         </button>
                     </td>
@@ -180,6 +244,8 @@ export default {
                     <th>Totale</th>
                     <td v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
                     <td v-else>€ 0.00</td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                     <td>
                         <!-- <button class="btn btn-sm btn-danger" @click="placeOrder()">
@@ -191,7 +257,7 @@ export default {
                             Vedi Carrello
                         </button>
                         
-                        <button v-if="this.store.cartFromLocalStorage.length != 0" type="button" class="ms-2 btn btn-danger" @click="clearCart()">
+                        <button v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" type="button" class="ms-2 btn btn-danger" @click="clearCart()">
                             Elimina Carrello
                         </button>
                         <button v-else type="button" class="ms-2 btn btn-danger disabled">
@@ -213,7 +279,7 @@ export default {
             </div>
             <div class="modal-body">
                 
-                <table v-if="this.store.cartFromLocalStorage.length != 0" class="table mb-4 container">
+                <table v-if="this.store.cartFromLocalStorage.length != 0 && this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" class="table mb-4 container">
                     <thead>
                         <tr>
                             <th scope="col">Nome</th>
@@ -243,7 +309,7 @@ export default {
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                 <button v-if="this.store.cartFromLocalStorage.length != 0 && this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                    <router-link :to="{name: 'cart'}" class="text-white text-decoration-none">Checkout</router-link>
+                    <router-link @click="getRestaurantName()" :to="{name: 'cart', params: {slug: this.restaurant.activity_name}}" class="text-white text-decoration-none">Checkout</router-link>
                 </button>
 
                 <button v-else type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled>
