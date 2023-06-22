@@ -29,7 +29,7 @@ const router = createRouter({
             meta: {title: 'Restaurant menu'},
         },
         {
-            path: '/cart',
+            path: '/restaurants/:slug/cart',
             name: 'cart',
             component: Cart,
             meta: {title: 'Cart'},
