@@ -140,21 +140,7 @@ export default {
             localStorage.setItem('restaurantName', JSON.stringify(this.store.restaurantName));
 
         },
-
-        // placeOrder() {
-        //     const order = {
-        //         dishes: this.store.cart
-        //     };
-        //     console.log(order)
-        //     axios.post('http://127.0.0.1:8000/api/orders', order)
-        //     .then(response => {
-        //         console.log('Ordine effettuato:', response.data);
-        //         this.cart = [];
-        //     })
-        //     .catch(error => {
-        //         console.error('Si è verificato un errore durante il salvataggio dell\'ordine:', error);
-        //     });
-        // }
+        
     }
 
 }
