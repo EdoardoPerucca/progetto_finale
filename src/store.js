@@ -8,8 +8,20 @@ export const store = reactive({
 
     restaurantIdFromLocalStorage: JSON.parse(localStorage.getItem('id') || 'null'),
 
-    dishIds: [],
+    actualRestaurantIdFromLocalStorage: JSON.parse(localStorage.getItem('actualId') || 'null'),
 
     actualRestaurantId: null,
+
+
+    dishIds: [],
+
+    order: [],
+    orderFromLocalStorage: JSON.parse(localStorage.getItem('order') || '[]'),
+
+
+    restaurantName: '',
+
+
+    restaurantNameFromLocalStorage: JSON.parse(localStorage.getItem('restaurantName')),
 
 });
