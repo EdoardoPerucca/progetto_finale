@@ -58,7 +58,7 @@ export default {
                 
             } else {
 
-                console.log(dish);
+                // console.log(dish);
 
                 this.store.cartFromLocalStorage.push({
                     restaurant_id: dish.restaurant_id,

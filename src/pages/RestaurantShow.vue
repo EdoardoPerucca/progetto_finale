@@ -25,7 +25,7 @@ export default {
 
         axios.get(url).then((response) => {
 
-            console.log(response.data.results);
+            // console.log(response.data.results);
 
             this.restaurant = response.data.results;
 
@@ -39,7 +39,7 @@ export default {
 
             document.title = 'Restaurant: ' + this.restaurant.activity_name;
 
-            console.log(this.store.actualRestaurantId);
+            // console.log(this.store.actualRestaurantId);
 
         })
 
