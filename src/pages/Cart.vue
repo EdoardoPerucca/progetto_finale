@@ -24,6 +24,25 @@ export default {
         this.getRestaurantId();
         this.getRestaurantName();
 
+
+        // BRAINTREE
+        var button = document.querySelector('#submit-button');
+
+        braintree.dropin.create({
+        authorization: 'sandbox_g42y39zw_348pk9cgf3bgyw2b',
+        selector: '#dropin-container'
+        }, function (err, instance) {
+        button.addEventListener('click', function () {
+
+            instance.requestPaymentMethod(function (err, payload) {
+            // Submit payload.nonce to your server
+
+                console.log(err.name);
+
+            });
+        })
+        });
+
     },
 
     methods: {
@@ -35,10 +54,10 @@ export default {
                 total:this.store.totalFromLocalStorage,
                 status:1,
                 number:100,
-                guest_first_name:this.first_name,
-                guest_last_name:this.last_name,
-                guest_address:this.address,
-                guest_email:this.email,
+                first_name:this.first_name,
+                last_name:this.last_name,
+                address:this.address,
+                email:this.email,
             };
             console.log(order)
             axios.post('http://127.0.0.1:8000/api/orders', order)
@@ -100,7 +119,7 @@ export default {
             localStorage.removeItem('order');
             localStorage.removeItem('restaurantName');
 
-            return location.replace('http://localhost:5174/restaurant');
+            return location.replace('http://localhost:5173/restaurant');
 
         },
 
@@ -174,6 +193,12 @@ export default {
 
     </div>
 
+
+    <div class="container" id="dropin-container"></div>
+    <div class="d-flex justify-content-center">
+        <button id="submit-button" class=" button button--small button--green">Purchase</button>
+    </div>
+
     <!-- <div v-else>CARRELLO NON TROVATO. CI HAI PROVATO PERO' BIRBANTELLO</div> -->
 </template>
 
@@ -191,5 +216,39 @@ export default {
 
 
     }
+
+    .button {
+  cursor: pointer;
+  font-weight: 500;
+  left: 3px;
+  line-height: inherit;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: inline-block;
+}
+
+.button--small {
+  padding: 10px 20px;
+  font-size: 0.875rem;
+}
+
+.button--green {
+  outline: none;
+  background-color: #64d18a;
+  border-color: #64d18a;
+  color: white;
+  transition: all 200ms ease;
+}
+
+.button--green:hover {
+  background-color: #8bdda8;
+  color: white;
+}
     
 </style>
