@@ -24,4 +24,11 @@ export const store = reactive({
 
     restaurantNameFromLocalStorage: JSON.parse(localStorage.getItem('restaurantName')),
 
+
+    first_name: '',
+    last_name: '',
+    address: '',
+    email: '',
+
+
 });
