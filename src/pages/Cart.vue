@@ -1,6 +1,7 @@
 <script>
 
 import { store } from '../store';
+import axios from 'axios';
 
 export default {
     name: 'Cart',
@@ -26,6 +27,29 @@ export default {
     },
 
     methods: {
+
+        placeOrder() {
+
+            const order = {
+                dishes: this.store.cartFromLocalStorage,
+                total:this.store.totalFromLocalStorage,
+                status:1,
+                number:100,
+                guest_first_name:this.first_name,
+                guest_last_name:this.last_name,
+                guest_address:this.address,
+                guest_email:this.email,
+            };
+            console.log(order)
+            axios.post('http://127.0.0.1:8000/api/orders', order)
+            .then(response => {
+                console.log('Ordine effettuato:', response.data);
+                // store.orderFromLocalStorage = [];
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore durante il salvataggio dell\'ordine:', error);
+            });
+        },
 
         getRestaurantId() {
 
@@ -143,7 +167,7 @@ export default {
                 </table>
 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Procedi all'ordine</button>
+                    <button @click="placeOrder()" type="submit" class="btn btn-primary">Procedi all'ordine</button>
                     <router-link class="ms-2 btn btn-danger" :to="{name: 'restaurant'}" @click="clearCart()">Elimina Carrello</router-link>
                 </div>
             </form>
