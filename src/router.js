@@ -4,6 +4,7 @@ import AppHome from './pages/AppHome.vue';
 import RestaurantIndex from './pages/RestaurantIndex.vue';
 import RestaurantShow from './pages/RestaurantShow.vue';
 import Cart from './pages/Cart.vue';
+import Payment from './pages/Payment.vue';
 
 
 const router = createRouter({
@@ -32,6 +33,12 @@ const router = createRouter({
             path: '/restaurants/:slug/cart',
             name: 'cart',
             component: Cart,
+            meta: {title: 'Cart'},
+        },
+        {
+            path: '/restaurants/:slug/cart/:id',
+            name: 'payment',
+            component: Payment,
             meta: {title: 'Cart'},
         },
     ]
