@@ -62,6 +62,7 @@ export default {
 
                 this.store.cartFromLocalStorage.push({
                     restaurant_id: dish.restaurant_id,
+                    restaurant_name: this.store.restaurantName,
                     id: dish.id,
                     name: dish.name,
                     price: singlePrice,
@@ -105,8 +106,8 @@ export default {
                 <li class="list-group-item"><b>Prezzo: </b> {{ dish.price }} €</li>
                 <li class="list-group-item"><b>Disponibilità: </b> {{ dish.availability ? 'Disponibile' : 'Non Disponibile' }}</li>
 
-                <a v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" class="btn btn-primary mt-3" :class="dish.availability ? '' : 'disabled'" @submit.prevent="" @click="addToCart(dish, index)">Aggiungi al carrello</a>
-                <a v-else class="btn btn-primary mt-3 disabled" @submit.prevent="" @click="addToCart(dish, index)" >Aggiungi al carrello</a>
+                <a v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" class="btn mt-3" :class="dish.availability ? 'btn-primary' : 'disabled btn-danger'" @submit.prevent="" @click="addToCart(dish, index)">Aggiungi al carrello</a>
+                <a v-else class="btn btn-danger mt-3 disabled" @submit.prevent="" @click="addToCart(dish, index)" >Aggiungi al carrello</a>
                 
             </ul>
 
