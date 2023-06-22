@@ -8,16 +8,64 @@ export default {
     data() {
         return {
             store,
+
+
+            first_name: '',
+            last_name: '',
+            address: '',
+            email: '',
+
         }
     },
 
     mounted() {
 
-        console.log(this.store.restaurantSlugFromLocalStorage)
+        this.getRestaurantId();
+        this.getRestaurantName();
 
     },
 
     methods: {
+
+        getRestaurantId() {
+
+            // this.store.actualRestaurantId;
+            this.store.actualRestaurantIdFromLocalStorage = localStorage.getItem('actualId');
+            console.log(this.store.actualRestaurantIdFromLocalStorage);
+
+        },
+
+        getRestaurantName() {
+
+            this.store.restaurantNameFromLocalStorage = localStorage.getItem('restaurantName');
+            console.log(this.store.restaurantNameFromLocalStorage);
+
+        },
+
+        pushIntoOrder() {
+
+            const order = {
+                first_name: this.first_name,
+                last_name: this.last_name,
+                address: this.address,
+                email: this.email,
+                total: this.store.totalFromLocalStorage.toFixed(2),
+                number: '1323432432432',
+                status: 'Confermato',
+                dishes: this.store.cartFromLocalStorage,
+            };
+
+            if (this.store.order.length === 0) {
+                this.store.order.push(order);
+            } else {
+                Object.assign(this.store.order[0], order);
+            }
+
+            localStorage.setItem('order', JSON.stringify(this.store.order));
+
+            console.log(this.store.order);
+
+        },
 
         clearCart() {
 
@@ -25,10 +73,14 @@ export default {
             localStorage.removeItem('total');
             localStorage.removeItem('id');
             localStorage.removeItem('slug');
+            localStorage.removeItem('order');
+            localStorage.removeItem('restaurantName');
 
             return location.replace('http://localhost:5174/restaurant');
 
         },
+
+        
 
     }
 }
@@ -39,56 +91,66 @@ export default {
 
     <router-link class="btn btn-primary m-3" :to="{name: 'restaurant'}">Torna ai Ristoranti</router-link>
 
-    <div class="container flex justify-content-center">
+    <h2 class="text-center">
 
-            <form class="mt-5">
+        {{ this.store.restaurantNameFromLocalStorage }}
+
+    </h2>
+
+    <!-- v-if="this.store.cartFromLocalStorage.length === 0 || this.store.actualRestaurantIdFromLocalStorage == this.store.restaurantIdFromLocalStorage"
+     -->
+    <div  class="container flex justify-content-center">
+
+            <form class="mt-5" @submit.prevent="pushIntoOrder">
                 <div class="mb-3">
-                    <label for="first_name" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="first_name" aria-describedby="emailHelp" required>
+                    <label for="first_name" class="form-label">*Nome</label>
+                    <input v-model="first_name" type="text" class="form-control" id="first_name" aria-describedby="emailHelp" required>
                 </div>
                 <div class="mb-3">
-                    <label for="last_name" class="form-label">Cognome:</label>
-                    <input type="text" class="form-control" id="last_name" required>
+                    <label for="last_name" class="form-label">*Cognome:</label>
+                    <input v-model="last_name" type="text" class="form-control" id="last_name" required>
                 </div>
                 <div class="mb-3">
-                    <label for="address" class="form-label">Indirizzo:</label>
-                    <input type="text" class="form-control" id="address" required>
+                    <label for="address" class="form-label">*Indirizzo:</label>
+                    <input v-model="address" type="text" class="form-control" id="address" required>
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
+                    <label for="email" class="form-label">*Email</label>
+                    <input v-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <table class="table">
-                <thead class="text-center">
-                    <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Prezzo</th>
-                        <th scope="col">Quantità</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    <tr  v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
-                        <td>{{ dish.name }}</td>
-                        <td>€ {{dish.price}}</td>
-                        <td >{{ dish.quantity }}</td>
-                    </tr>
-                    <tr>
-                        <th>Totale</th>
-                        <td v-if="this.store.cartFromLocalStorage.length == 0 || this.store.restaurantIdFromLocalStorage == this.store.cartFromLocalStorage[0].restaurant_id || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
-                        <td v-else>€ 0.00</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Prezzo</th>
+                            <th scope="col">Quantità</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr  v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
+                            <td>{{ dish.name }}</td>
+                            <td>€ {{dish.price.toFixed(2)}}</td>
+                            <td >{{ dish.quantity }}</td>
+                        </tr>
+                        <tr>
+                            <th>Totale</th>
+                            <td v-if="this.store.cartFromLocalStorage.length == 0 || this.store.restaurantIdFromLocalStorage == this.store.cartFromLocalStorage[0].restaurant_id || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
+                            <td v-else>€ 0.00</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Procedi all'ordine</button>
-                <router-link class="ms-2 btn btn-danger" :to="{name: 'restaurant'}" @click="clearCart()">Elimina Carrello</router-link>
-            </div>
-        </form>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Procedi all'ordine</button>
+                    <router-link class="ms-2 btn btn-danger" :to="{name: 'restaurant'}" @click="clearCart()">Elimina Carrello</router-link>
+                </div>
+            </form>
 
     </div>
+
+    <!-- <div v-else>CARRELLO NON TROVATO. CI HAI PROVATO PERO' BIRBANTELLO</div> -->
 </template>
 
 
