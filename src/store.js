@@ -10,4 +10,27 @@ export const store = reactive({
 
     dishIds: [],
 
+    footerLinks: [
+        {
+            title: 'Information',
+            links: [
+                'Bookmark',
+                'Features',
+                'Sitemap',
+                'Lists',
+                'Contact US'
+            ]
+        },
+        {
+            title: 'Extras',
+            links: [
+                'Delivery',
+                'Cart',
+                'Terms conditions',
+                'My account',
+                'About us'
+            ]
+        },
+    ],
+
 });
