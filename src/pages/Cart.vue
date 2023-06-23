@@ -46,13 +46,13 @@ export default {
         pushIntoOrder() {
 
             const order = {
-                first_name: this.first_name,
-                last_name: this.last_name,
-                address: this.address,
-                email: this.email,
-                total: this.store.totalFromLocalStorage.toFixed(2),
-                number: '1323432432432',
-                status: 'Confermato',
+                first_name: store.first_name,
+                last_name: store.last_name,
+                address: store.address,
+                email: store.email,
+                total: this.store.totalFromLocalStorage,
+                number: 100,
+                status: 1,
                 dishes: this.store.cartFromLocalStorage,
             };
 
@@ -64,7 +64,7 @@ export default {
 
             localStorage.setItem('order', JSON.stringify(this.store.order));
 
-            // console.log(this.store.order);
+            return location.replace('http://localhost:5173/restaurants/' + store.restaurantNameFromLocalStorage + '/cart/' + store.cartFromLocalStorage[0].id);
 
         },
 
@@ -144,9 +144,7 @@ export default {
                 </table>
 
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">
-                        <router-link class="text-white text-decoration-none" :to="{name: 'payment', params: {id: this.store.cartFromLocalStorage[0].id }}">Procedi all'ordine</router-link>
-                    </button>
+                    <button type="submit" class="btn btn-primary">Procedi all'ordine</button>
                     <router-link class="ms-2 btn btn-danger" :to="{name: 'restaurant'}" @click="clearCart()">Elimina Carrello</router-link>
                 </div>
             </form>
