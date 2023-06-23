@@ -33,7 +33,7 @@ export default {
     
                 <div class="footer-right">
                     <p><strong class="text-white">Our Newsletter</strong></p>
-                    <span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+                    <span>Tieni traccia delle nuove aperture nella tua zona.</span>
                     <div class="newsletter-input">
                         <input type="text">
                         <i class="fa-regular fa-paper-plane"></i>
