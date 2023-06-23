@@ -42,20 +42,9 @@ export default {
         
         placeOrder() {
 
-            const order = {
-                dishes: this.store.cartFromLocalStorage,
-                total:this.store.totalFromLocalStorage,
-                status:1,
-                number:100,
-                first_name:this.store.first_name,
-                last_name:this.store.last_name,
-                address:this.store.address,
-                email:this.store.email,
-            };
-
             // console.log(order)
 
-            axios.post('http://127.0.0.1:8000/api/orders', order)
+            axios.post('http://127.0.0.1:8000/api/orders', this.store.orderFromLocalStorage[0])
             .then(response => {
                 console.log('Ordine effettuato:', response.data);
                 // store.orderFromLocalStorage = [];
@@ -63,6 +52,20 @@ export default {
             .catch(error => {
                 console.error('Si è verificato un errore durante il salvataggio dell\'ordine:', error);
             });
+
+            setTimeout(() => {
+                
+                localStorage.removeItem('cart');
+                localStorage.removeItem('total');
+                localStorage.removeItem('id');
+                localStorage.removeItem('slug');
+                localStorage.removeItem('order');
+                localStorage.removeItem('restaurantName');
+    
+                return location.replace('http://localhost:5173/restaurant');
+                
+            }, 10000);
+
 
         },
 
