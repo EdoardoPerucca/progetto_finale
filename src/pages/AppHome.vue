@@ -14,7 +14,7 @@ export default {
 <template>
     <div class="hero-container">
         <div class="hero-title container">
-            <h1>Benvenuti su Deliveboo</h1>
+            <h1>Benvenuto su Deliveboo</h1>
             <div class="restaurant-button">
                 <router-link class="btn btn-restaurant" :to="{ name: 'restaurant' }">Vai ai ristoranti</router-link>
             </div>
@@ -47,7 +47,6 @@ export default {
         }
 
         .restaurant-button {
-
             .btn-restaurant {
                 margin-top: 3em;
                 padding: 15px 30px;
