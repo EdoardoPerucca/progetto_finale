@@ -12,7 +12,7 @@ export const store = reactive({
 
     footerLinks: [
         {
-            title: 'Information',
+            title: 'Informationi',
             links: [
                 'Bookmark',
                 'Features',
@@ -22,7 +22,7 @@ export const store = reactive({
             ]
         },
         {
-            title: 'Extras',
+            title: 'Extra',
             links: [
                 'Delivery',
                 'Cart',
