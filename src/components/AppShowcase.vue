@@ -17,7 +17,7 @@ export default {
 
 <template>
     <div class="background">
-        <h1 class="text-center py-4">Ordina nei Fast Food più famosi!</h1>
+        <h1 class="text-center">Ordina nei Fast Food più famosi!</h1>
         <div class="showcase container">
             <div class="most-popular">
                 <div class="animated-gradient"></div>
@@ -42,11 +42,36 @@ export default {
             </div>
         </div>
 
+        <h1 class="text-center">Voglia di sushi?</h1>
+        <div class="showcase container">
+            <div class="most-popular">
+                <div class="animated-gradient"></div>
+                <img src="/images/sushi1.jpg" alt="">
+                <div class="most-popular-title">
+                    <h1>Nima Sushi</h1>
+                </div>
+            </div>
+            <div class="most-popular">
+                <img src="/images/sushi2.webp" alt="">
+                <div class="animated-gradient"></div>
+                <div class="most-popular-title">
+                    <h1>Temakinho</h1>
+                </div>
+            </div>
+            <div class="most-popular">
+                <img src="/images/sushi3.jpg" alt="">
+                <div class="animated-gradient"></div>
+                <div class="most-popular-title">
+                    <h1>Endo</h1>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <style lang="scss" scoped>
 .background {
+    padding: 4em;
     background-color: #ffcc6a;
 }
 
@@ -102,7 +127,7 @@ h1 {
 
     .most-popular {
         position: relative;
-        
+
         box-shadow: 0px 10px 12px 0px rgba(0, 0, 0, 0.8);
 
         img {
@@ -111,7 +136,7 @@ h1 {
             width: 400px;
             height: 200px;
             object-fit: cover;
-            filter: brightness(0.8);
+            filter: brightness(0.7);
         }
 
         .most-popular-title {
