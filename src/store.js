@@ -15,6 +15,7 @@ export const store = reactive({
 
     dishIds: [],
 
+<<<<<<< HEAD
     order: [],
     orderFromLocalStorage: JSON.parse(localStorage.getItem('order') || '[]'),
 
@@ -30,5 +31,29 @@ export const store = reactive({
     address: '',
     email: '',
 
+=======
+    footerLinks: [
+        {
+            title: 'Informationi',
+            links: [
+                'Bookmark',
+                'Features',
+                'Sitemap',
+                'Lists',
+                'Contact US'
+            ]
+        },
+        {
+            title: 'Extra',
+            links: [
+                'Delivery',
+                'Cart',
+                'Terms conditions',
+                'My account',
+                'About us'
+            ]
+        },
+    ],
+>>>>>>> homepage-style
 
 });
