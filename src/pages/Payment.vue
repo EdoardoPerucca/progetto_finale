@@ -7,6 +7,11 @@ export default {
     data() {
         return {
             store,
+
+            errorMessage: '',
+            name: "",
+            email: "",
+            messaggio: "",
         }
     },
 
@@ -62,11 +67,31 @@ export default {
                 localStorage.removeItem('order');
                 localStorage.removeItem('restaurantName');
     
-                return location.replace('http://localhost:5173/restaurant');
+                return location.replace('/restaurant');
                 
-            }, 10000);
+            }, 2000);
 
 
+        },
+
+        sendForm() {
+            const data = {
+                name: this.name,
+                email: this.email,
+                messaggio: this.messaggio,
+            };
+            axios.post("http://127.0.0.1:8000/api/leads" , data).then((resp) => {
+                this.success = resp.data.success;
+                console.log(resp.data)
+                if (this.success) {
+                this.name = "";
+                this.email = "";
+                this.messaggio = "";
+                } else {
+                console.log(resp.data);
+                this.errors = resp.data.errors;
+                }
+            });
         },
 
     },
@@ -83,6 +108,39 @@ export default {
     <div class="d-flex justify-content-center">
         <button id="submit-button" class=" button button--small button--green">Purchase</button>
     </div>
+
+    <form @submit.prevent="sendForm">
+        <div class="mb-3">
+        <label for="name">Nome</label>
+        <input
+            type="text"
+            id="name"
+            class="form-control"
+            v-model="name"
+        />
+        </div>
+        <div class="mb-3">
+        <label for="email">Email</label>
+        <input
+            type="email"
+            id="email"
+            class="form-control"
+            v-model="email"
+        />
+        </div>
+        <div class="mb-3">
+        <label for="message">Messaggio</label>
+        <textarea
+            id="message"
+            rows="10"
+            class="form-control"
+            v-model="messaggio"
+        ></textarea>
+        </div>
+        <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">INVIA</button>
+        </div>
+    </form>
 
 </template>
 

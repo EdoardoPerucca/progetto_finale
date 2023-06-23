@@ -64,7 +64,7 @@ export default {
 
             localStorage.setItem('order', JSON.stringify(this.store.order));
 
-            return location.replace('http://localhost:5173/restaurants/' + store.restaurantNameFromLocalStorage + '/cart/' + store.cartFromLocalStorage[0].id);
+            return location.replace('/restaurants/' + store.restaurantNameFromLocalStorage + '/cart/' + store.cartFromLocalStorage[0].id);
 
         },
 
@@ -77,7 +77,7 @@ export default {
             localStorage.removeItem('order');
             localStorage.removeItem('restaurantName');
 
-            return location.replace('http://localhost:5173/restaurant');
+            return location.replace('/restaurant');
 
         },
 
