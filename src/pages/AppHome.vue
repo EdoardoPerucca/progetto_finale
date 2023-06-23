@@ -1,6 +1,13 @@
 <script>
+
+import AppFooter from '../components/AppFooter.vue';
+import AppShowcase from '../components/AppShowcase.vue';
 export default {
-    name: 'AppHome',
+    name: "AppHome",
+    data() {
+        return {};
+    },
+    components: { AppFooter, AppShowcase }
 }
 </script>
 
@@ -12,13 +19,13 @@ export default {
                 <router-link class="btn btn-restaurant" :to="{ name: 'restaurant' }">Vai ai ristoranti</router-link>
             </div>
         </div>
-
     </div>
+
+    <AppShowcase></AppShowcase>
 </template>
 
 <style lang="scss" scoped>
 .hero-container {
-    
     height: calc(100vh - 103px);
     display: flex;
     justify-content: center;
