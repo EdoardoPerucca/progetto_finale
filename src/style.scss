@@ -1,1 +1,46 @@
 @import "bootstrap/scss/bootstrap";
+
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+    scrollbar-width: auto;
+    scrollbar-color: #170e1f #1d1427;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #383838;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #170e1f;
+    border-radius: 10px;
+    border: 1px solid #f9aa01;
+}
+
+.title-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .row {
+        margin-top: 10px;
+        width: 30px;
+        height: 2px;
+        background-color: #f9aa01;
+    }
+}
