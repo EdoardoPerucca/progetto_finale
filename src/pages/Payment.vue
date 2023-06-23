@@ -109,38 +109,47 @@ export default {
         <button id="submit-button" class=" button button--small button--green">Purchase</button>
     </div>
 
-    <form @submit.prevent="sendForm">
-        <div class="mb-3">
-        <label for="name">Nome</label>
-        <input
-            type="text"
-            id="name"
-            class="form-control"
-            v-model="name"
-        />
-        </div>
-        <div class="mb-3">
-        <label for="email">Email</label>
-        <input
-            type="email"
-            id="email"
-            class="form-control"
-            v-model="email"
-        />
-        </div>
-        <div class="mb-3">
-        <label for="message">Messaggio</label>
-        <textarea
-            id="message"
-            rows="10"
-            class="form-control"
-            v-model="messaggio"
-        ></textarea>
-        </div>
-        <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary">INVIA</button>
-        </div>
-    </form>
+    <div class="dropdown container">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+            Contattaci...
+        </button>
+        <form class="dropdown-menu p-4" @submit.prevent="sendForm">
+            <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input
+                        type="text"
+                        id="name"
+                        class="form-control"
+                        v-model="name"
+                    />    </div>
+            <div class="mb-3">
+            <label for="Email" class="form-label">Email</label>
+            <input
+                        type="email"
+                        id="email"
+                        class="form-control"
+                        v-model="email"
+                    />    </div>
+            
+            <div class="mb-3">
+            <label for="message" class="form-label">Messaggio</label>
+            <textarea
+                        id="message"
+                        rows="10"
+                        class="form-control"
+                        v-model="messaggio"
+                    ></textarea>    </div>
+            <div class="mb-3">
+            <!-- <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                <label class="form-check-label" for="dropdownCheck2">
+                Remember me
+                </label>
+            </div> -->
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+    </div>
 
 </template>
 
