@@ -65,6 +65,9 @@ footer {
     background-color: #212529;
     background-size: cover;
     background-position: center;
+    border-top-left-radius: 25%;
+    border-top-right-radius: 25%;
+    border-top: 10px solid #dd3f3f;
 
     .top-footer {
         padding: 7em 0;
