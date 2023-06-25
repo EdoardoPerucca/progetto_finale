@@ -2,11 +2,15 @@
 
 import AppFooter from '../components/AppFooter.vue';
 import AppShowcase from '../components/AppShowcase.vue';
+
 export default {
     name: "AppHome",
     data() {
-        return {};
+        return {
+
+        };
     },
+
     components: { AppFooter, AppShowcase }
 }
 </script>
@@ -22,6 +26,7 @@ export default {
     </div>
 
     <AppShowcase></AppShowcase>
+    
 </template>
 
 <style lang="scss" scoped>
