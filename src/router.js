@@ -5,6 +5,7 @@ import RestaurantIndex from './pages/RestaurantIndex.vue';
 import RestaurantShow from './pages/RestaurantShow.vue';
 import Cart from './pages/Cart.vue';
 import Payment from './pages/Payment.vue';
+import Email from './pages/Email.vue';
 
 
 const router = createRouter({
@@ -27,7 +28,7 @@ const router = createRouter({
             path: '/restaurantMenu/:slug',
             name: 'restaurantMenu',
             component: RestaurantShow,
-            meta: {title: 'Restaurant menu'},
+            meta: {title: 'Restaurant Menu'},
         },
         {
             path: '/restaurants/:slug/cart',
@@ -39,7 +40,13 @@ const router = createRouter({
             path: '/restaurants/:slug/cart/:id',
             name: 'payment',
             component: Payment,
-            meta: {title: 'Cart'},
+            meta: {title: 'Payment'},
+        },
+        {
+            path: '/no-reply',
+            name: 'Email',
+            component: Email,
+            meta: {title: 'No Reply Email'},
         },
     ]
 });
