@@ -194,7 +194,7 @@ export default {
             Hai già un carrello in un altro Ristorante: {{ this.store.cartFromLocalStorage[0].restaurant_name }} !
         </span>
 
-        <table class="table mb-4 container text-center">
+        <table class="table mb-4 container text-center" v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">
             <thead>
                 <tr>
                     <th scope="col">Nome</th>
@@ -209,13 +209,13 @@ export default {
                 <tr  v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
                     <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.name }}</td>
                     <td v-if="this.restaurant.id == dish.restaurant_id">€ {{dish.price.toFixed(2)}}</td>
-                    <td>
+                    <td v-if="this.restaurant.id == dish.restaurant_id">
                         <button class="btn btn-sm btn-danger me-2 fw-bold" @click="removeFromCart(dish)">
                             -
                         </button>
                     </td>
                     <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.quantity }}</td>
-                    <td>
+                    <td v-if="this.restaurant.id == dish.restaurant_id">
                         <button class="btn btn-sm btn-danger me-2 fw-bold" @click="addToCart(dish)">
                             +
                         </button>
@@ -234,10 +234,6 @@ export default {
                     <td></td>
                     <td></td>
                     <td>
-                        <!-- <button class="btn btn-sm btn-danger" @click="placeOrder()">
-                            Paga
-                        </button> -->
-
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                             Vedi Carrello
