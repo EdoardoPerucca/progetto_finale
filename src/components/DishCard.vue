@@ -22,6 +22,7 @@ export default {
     },
 
     methods: {
+        
         getImage(){
 
            let  path = "https://static.vecteezy.com/ti/vettori-gratis/p1/5359703-cibo-icone-pixel-perfetto-illustrazione-vettoriale.jpg";
@@ -61,12 +62,14 @@ export default {
                 // console.log(dish);
 
                 this.store.cartFromLocalStorage.push({
+
                     restaurant_id: dish.restaurant_id,
                     restaurant_name: this.store.restaurantName,
                     id: dish.id,
                     name: dish.name,
                     price: singlePrice,
                     quantity: 1,
+
                 });
                 
                 this.store.dishIds.push(dish.id);
@@ -78,9 +81,7 @@ export default {
                 localStorage.setItem('id', JSON.parse(this.store.actualRestaurantId));
                 localStorage.setItem('slug', JSON.stringify(this.store.restaurantSlug));
 
-            }
-
-            // console.log(this.store.cartFromLocalStorage);
+            };
         },
 
     },
