@@ -18,6 +18,9 @@ export const store = reactive({
     order: [],
     orderFromLocalStorage: JSON.parse(localStorage.getItem('order') || '[]'),
 
+    email: [],
+    emailContent: JSON.parse(localStorage.getItem('email') || '[]'),
+
 
     restaurantName: '',
 
