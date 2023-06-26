@@ -77,7 +77,7 @@ export default {
                 localStorage.removeItem('order');
                 // localStorage.removeItem('restaurantName');
     
-                return this.$router.push('/no-reply');
+                return location.replace('/no-reply');
                 
             }, 2000);
 
