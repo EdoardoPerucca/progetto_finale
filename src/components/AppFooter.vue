@@ -49,7 +49,7 @@ export default {
             <hr>
             <div class="bottom-footer container-centered">
                 <div class="copyright">
-                    <p>Copiright &copy; Deliveboo 2023</p>
+                    <p>Copyright &copy; Deliveboo 2023</p>
                 </div>
             </div>
         </footer>
