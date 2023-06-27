@@ -20,31 +20,26 @@ export default {
 
     mounted() {
 
-        // BRAINTREE - PAYMENTS
-        let button = document.querySelector('#submit-button');
-        let vue = this;
+      // BRAINTREE - PAYMENTS
+      let button = document.querySelector('#submit-button');
+      let vue = this;
 
-        braintree.dropin.create({
-            authorization: 'sandbox_g42y39zw_348pk9cgf3bgyw2b',
-            selector: '#dropin-container'
-        }, function (err, instance) {
+      braintree.dropin.create({
+          authorization: 'sandbox_g42y39zw_348pk9cgf3bgyw2b',
+          selector: '#dropin-container'
+      }, function (err, instance) {
         button.addEventListener('click', function () {
-
-            instance.requestPaymentMethod(function (err, payload) {
-            // Submit payload.nonce to your server
-
+          instance.requestPaymentMethod(function (err, payload) {
             if (err === null) {
-                vue.placeOrder();
-                vue.isDone = true;
+              vue.placeOrder();
+              vue.sendForm();
+              vue.isDone = true;
             } else {
-                console.log('Pagamento fallito:', err);
+              console.log('Pagamento fallito:', err);
             }
-            
-            
-                });
-            })
-        });
-        // /BRAINTREE - PAYMENTS
+          });
+        })
+      });
 
     },
 
@@ -75,7 +70,7 @@ export default {
                 localStorage.removeItem('id');
                 localStorage.removeItem('slug');
                 localStorage.removeItem('order');
-                // localStorage.removeItem('restaurantName');
+
     
                 return location.replace('/no-reply');
                 
@@ -86,15 +81,15 @@ export default {
         sendForm() {
 
             const data = {
-                name: this.name,
-                email: this.email,
-                messaggio: this.messaggio,
+                name:  store.orderFromLocalStorage[0].first_name ,
+                email: store.orderFromLocalStorage[0].email ,
+                messaggio: store.orderFromLocalStorage[0].number ,
             };
 
             axios.post("http://127.0.0.1:8000/api/leads" , data).then((resp) => {
 
                 this.success = resp.data.success;
-                console.log(resp.data);
+                console.log(data);
 
                 if (this.success) {
 
@@ -124,6 +119,7 @@ export default {
     <div class="container" id="dropin-container"></div>
     <div class="d-flex justify-content-center">
         <button v-if="!isDone" id="submit-button" class=" button button--small button--green">Purchase</button>
+
     </div>
 
     <div class="container d-flex justify-content-center my-5">
