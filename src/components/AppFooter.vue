@@ -13,64 +13,56 @@ export default {
 </script>
 
 <template>
-    <div class="background">
-        
-        <footer>
-            <div class="top-footer container">
-                <div class="footer-left">
-                    <p><strong class="text-white">Per Info</strong></p>
-                    <span><i class="fa-solid fa-phone"></i> (+39) 123-456-7890</span>
-                    <span><i class="fa-solid fa-envelope"></i> prova@example.com</span>
-                </div>
-                <div class="footer-center">
-                    <div v-for="footerLink in store.footerLinks" class="links">
-                        <p><strong class="text-white">{{ footerLink.title }}</strong></p>
-                        <ul>
-                            <li v-for="link in footerLink.links"><a href="#">{{ link }}</a></li>
-                        </ul>
-                    </div>
-                </div>
-    
-                <div class="footer-right">
-                    <p><strong class="text-white">Our Newsletter</strong></p>
-                    <span>Tieni traccia delle nuove aperture nella tua zona.</span>
-                    <div class="newsletter-input">
-                        <input type="text">
-                        <i class="fa-regular fa-paper-plane"></i>
-                    </div>
-    
-                    <div class="socials">
-                        <i class="fa-brands fa-facebook-f"></i>
-                        <i class="fa-brands fa-twitter"></i>
-                        <i class="fa-brands fa-instagram"></i>
-                    </div>
+    <footer>
+        <div class="top-footer container">
+            <div class="footer-left">
+                <p><strong class="text-white">Per Info</strong></p>
+                <span><i class="fa-solid fa-phone"></i> (+39) 123-456-7890</span>
+                <span><i class="fa-solid fa-envelope"></i> prova@example.com</span>
+            </div>
+            <div class="footer-center">
+                <div v-for="footerLink in store.footerLinks" class="links">
+                    <p><strong class="text-white">{{ footerLink.title }}</strong></p>
+                    <ul>
+                        <li v-for="link in footerLink.links"><a href="#">{{ link }}</a></li>
+                    </ul>
                 </div>
             </div>
-            <hr>
-            <div class="bottom-footer container-centered">
-                <div class="copyright">
-                    <p>Copyright &copy; Deliveboo 2023</p>
+
+            <div class="footer-right">
+                <p><strong class="text-white">Our Newsletter</strong></p>
+                <span>Tieni traccia delle nuove aperture nella tua zona.</span>
+                <div class="newsletter-input">
+                    <input type="text">
+                    <i class="fa-regular fa-paper-plane"></i>
+                </div>
+
+                <div class="socials">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <i class="fa-brands fa-twitter"></i>
+                    <i class="fa-brands fa-instagram"></i>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+        <hr>
+        <div class="bottom-footer container-centered">
+            <div class="copyright">
+                <p>Copyright &copy; Deliveboo 2023</p>
+            </div>
+        </div>
+    </footer>
 </template>
 
 <style lang="scss" scoped>
-.background {
-    background-color: #ffcc6a;
-}
 footer {
     width: 100%;
     background-color: #212529;
     background-size: cover;
     background-position: center;
-    border-top-left-radius: 25%;
-    border-top-right-radius: 25%;
-    border-top: 10px solid #dd3f3f;
+    border-top: 5px solid #dd3f3f;
 
     .top-footer {
-        padding: 7em 0;
+        padding: 4em 2em;
         display: flex;
         justify-content: space-between;
         gap: 40px;
@@ -78,6 +70,8 @@ footer {
         .footer-left {
             display: flex;
             flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
             gap: 20px;
             width: calc(100% / 3);
 
@@ -103,7 +97,7 @@ footer {
             .links {
                 display: flex;
                 flex-direction: column;
-                gap: 10px;
+                gap: 20px;
 
                 p strong {
                     font-size: 1.2em;
@@ -202,6 +196,24 @@ footer {
             color: rgba(255, 255, 255, 0.459);
         }
 
+    }
+}
+
+@media (max-width: 768px) {
+    footer .top-footer {
+        flex-direction: column;
+        align-items: center;
+
+        .footer-left,
+        .footer-center,
+        .footer-right {
+            width: 100%;
+        }
+
+        .footer-right {
+            align-items: center;
+            text-align: center;
+        }
     }
 }
 </style>

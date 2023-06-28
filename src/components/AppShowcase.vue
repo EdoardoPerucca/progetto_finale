@@ -73,6 +73,8 @@ export default {
 .background {
     padding: 4em;
     background-color: #ffcc6a;
+    background-image: url(https://i.ibb.co/fM5MH76/pngegg.png);
+    background-size: cover;
 }
 
 h1 {
