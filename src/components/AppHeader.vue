@@ -28,26 +28,13 @@ export default {
                         <router-link class="nav-link" aria-current="page" :to="{ name: 'home' }">Home</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <router-link class="nav-link" :to="{ name: 'restaurant' }">Ristoranti</router-link>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
-                    <input id="form-search" class="form-control me-2" type="search" placeholder="Search"
-                        aria-label="Search">
-                    <button class="btn btn-restaurant" type="submit">Search</button>
-                </form>
+              <a class="nav-link pe-2" href="http://127.0.0.1:8000/">Registrati</a>
             </div>
         </div>
     </nav>
