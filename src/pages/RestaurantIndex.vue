@@ -88,7 +88,7 @@ export default {
                     // if there are NO restaurants with that Type in the filter
                     this.restaurantFound = false;
 
-                    // this.errorMessage = response.data.error
+                    this.errorMessage = response.data.error
 
                 };
             });
@@ -134,7 +134,10 @@ export default {
                         <div v-if="!isLoading" id="container" class="d-flex flex-row flex-wrap justify-content-around mt-3">
                             <RestaurantCard v-if="restaurantFound" class="my-3" :restaurant="restaurant"
                                 v-for="restaurant in restaurants"></RestaurantCard>
-                            <span class="alert alert-danger" v-else>{{ errorMessage }}</span>
+                                <div style="max-height: 600px; height: 600px;" class="pippo" v-else>
+                                   <span class="alert alert-danger">{{ errorMessage }}</span> 
+                                </div>
+                            
                         </div>
 
                         <!-- OMELETTE LOADER -->
@@ -222,4 +225,10 @@ export default {
         background-color: #dd3f3f;
         border-bottom: 3px solid #212529;
     }
-}</style>
+}
+
+.pippo {
+    display: flex;
+    align-items: center;
+}
+</style>

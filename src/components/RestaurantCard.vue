@@ -46,9 +46,9 @@ export default {
                 </div>
                 <div class="postcard__bar"></div>
                 <div class="postcard__preview-txt">{{ restaurant.address }}</div>
-                <div class="postcard__preview">Tipologia: <span v-for="restaurantType in restaurant.types">
-                        {{ restaurantType.name + ', ' }}
-                    </span></div>
+                <div class="postcard__preview">
+                    <img style="width: 40px;" v-for="restaurantType in restaurant.types" :src="'/images/icons/' + restaurantType.icon_path" alt="">
+                </div>
             </div>
         </article>
     </div>
