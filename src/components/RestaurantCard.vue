@@ -3,6 +3,9 @@ export default {
     data() {
         return {
 
+            hoverStates: {},
+
+            hoveredIndex: -1
         }
     },
 
@@ -26,6 +29,25 @@ export default {
 
             };
         },
+
+        showBadge(index) {
+
+            this.hoveredIndex = index;
+
+            this.hoverStates[index] = true;
+            
+        },
+
+        hideBadge(index) {
+
+            this.hoveredIndex = -1;
+
+            this.hoverStates[index] = false;
+
+            
+
+        }
+
     },
 }
 
@@ -46,8 +68,13 @@ export default {
                 </div>
                 <div class="postcard__bar"></div>
                 <div class="postcard__preview-txt">{{ restaurant.address }}</div>
-                <div class="postcard__preview">
-                    <img style="width: 40px;" v-for="restaurantType in restaurant.types" :src="'/images/icons/' + restaurantType.icon_path" alt="">
+                <div class="postcard__preview d-flex">
+                    <div v-for="(restaurantType, index) in restaurant.types" :key="index" style="position: relative;">                       
+                        <img  @mouseover="showBadge(index)" @mouseout="hideBadge(index)" style="width: 40px; "  :src="'/images/icons/' + restaurantType.icon_path" alt="">
+                        <span v-if="hoverStates[index]" class="rest-icon badge ">{{restaurantType.name}}</span>
+                    </div>
+
+                    
                 </div>
             </div>
         </article>
@@ -84,6 +111,15 @@ a:hover {
 
     a {
         color: inherit;
+    }
+
+    .rest-icon{
+        position: absolute;
+        left: -10px;
+        top: -25px;
+        background-color: #fcc969;
+        color: black;
+        
     }
 
     .postcard__img {
