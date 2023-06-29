@@ -121,7 +121,7 @@ export default {
     }
 
     .total {
-        background-color: #ffcc6a;
+        background-color: #212529;
         padding: 30px;
 
         span {
