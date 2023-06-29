@@ -158,7 +158,7 @@ export default {
 <template>
     <div class="background">
         <div class="inner-container-1">
-            <router-link class="btn btn-restaurant m-3" :to="{ name: 'restaurant' }">Torna indietro</router-link>
+            <router-link class="btn btn-restaurant3 m-3" :to="{ name: 'restaurant' }">Torna indietro</router-link>
 
             <div class="container-fluid d-flex justify-content-center py-2">
                 <article class="postcard dark red">
@@ -179,8 +179,6 @@ export default {
                 </article>
             </div>
 
-
-            <h2 class="text-center py-3 fw-bold">Piatti</h2>
             <div class="container py-5">
                 <DishCard :dish="dish" v-for="dish in restaurant.dishes"></DishCard>
             </div>
@@ -189,11 +187,11 @@ export default {
         <div class=" inner-container-2">
             <span v-if="this.store.cartFromLocalStorage.length == 0"></span>
             <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id"
-                class="ps-1 pb-4 text-center d-flex justify-content-center fs-2 text-danger">
+                class="px-2 pb-4 text-center d-flex justify-content-center fs-2 text-white alert text-bg-danger rounded-pill">
                 Hai già un carrello in un altro Ristorante: {{ this.store.cartFromLocalStorage[0].restaurant_name }} !
             </span>
 
-            <table class="table container text-center"
+            <table class="table container text-center overflow-hidden rounded rounded-4"
                 v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">
                 <thead>
                     <tr>
@@ -210,18 +208,18 @@ export default {
                         <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.name }}</td>
                         <td v-if="this.restaurant.id == dish.restaurant_id">€ {{ dish.price.toFixed(2) }}</td>
                         <td v-if="this.restaurant.id == dish.restaurant_id">
-                            <button class="btn btn-sm btn-danger me-2 fw-bold" @click="removeFromCart(dish)">
+                            <button class="btn btn-restaurantminus me-2 fw-bold rounded-5" @click="removeFromCart(dish)">
                                 -
                             </button>
                         </td>
                         <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.quantity }}</td>
                         <td v-if="this.restaurant.id == dish.restaurant_id">
-                            <button class="btn btn-sm btn-danger me-2 fw-bold" @click="addToCart(dish)">
+                            <button class="btn btn-restaurantplus me-2 fw-bold rounded-5" @click="addToCart(dish)">
                                 +
                             </button>
                         </td>
                         <td v-if="this.restaurant.id == dish.restaurant_id">
-                            <button class="btn btn-sm btn-danger" @click="removeDishFromCart(dish)">
+                            <button class="btn  btn-danger" @click="removeDishFromCart(dish)">
                                 Rimuovi
                             </button>
                         </td>
@@ -241,16 +239,16 @@ export default {
             </table>
             <div class="cart-buttons">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <button type="button" class="btn btn-restaurant2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Vedi Carrello
                 </button>
 
                 <button
                     v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id"
-                    type="button" class="ms-2 btn btn-danger" @click="clearCart()">
+                    type="button" class="ms-2 btn btn-restaurant3" @click="clearCart()">
                     Elimina Carrello
                 </button>
-                <button v-else type="button" class="ms-2 btn btn-danger disabled">
+                <button v-else type="button" class="ms-2 btn btn-restaurant3 disabled">
                     Elimina Carrello
                 </button>
             </div>
@@ -301,16 +299,16 @@ export default {
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                        <button type="button" class="btn btn-restaurant3" data-bs-dismiss="modal">Chiudi</button>
                         <button
                             v-if="this.store.cartFromLocalStorage.length != 0 && this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id"
-                            type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                            type="button" class="btn btn-restaurant2" data-bs-dismiss="modal">
                             <router-link @click="getRestaurantName()"
                                 :to="{ name: 'cart', params: { slug: this.restaurant.activity_name } }"
                                 class="text-white text-decoration-none">Checkout</router-link>
                         </button>
 
-                        <button v-else type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled>
+                        <button v-else type="button" class="btn btn-restaurant2" data-bs-dismiss="modal" disabled>
                             <router-link :to="{ name: 'cart' }"
                                 class="text-white text-decoration-none">Checkout</router-link>
                         </button>
@@ -326,7 +324,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@media screen and (min-width: 1900px) {
+@media screen and (min-width: 2300px) {
     .inner-container-2{
         position:fixed;
     }
@@ -354,7 +352,7 @@ export default {
     padding-top: 5em;
     gap: 20px;
     // position: fixed;
-    right: 50px;
+    right: 15%;
 }
 
 .table {
@@ -385,11 +383,12 @@ export default {
 
 }
 
-.btn-restaurant {
+.btn-restaurantminus {
     border: none;
     border-radius: 50px;
-    background-color: #212529;
-    color: white;
+    width: 30px;
+    background-color: #fcc969;
+    color: 212529;
     font-weight: bold;
     border-bottom: 3px solid #dd3f3f;
     transition: all .6s;
@@ -398,6 +397,24 @@ export default {
     &:hover {
         cursor: pointer;
         background-color: #dd3f3f;
+        border-bottom: 3px solid #212529;
+    }
+}
+
+.btn-restaurantplus {
+    border: none;
+    border-radius: 50px;
+    background-color: #fcc969;
+    width: 30px;
+    color: #212529;
+    font-weight: bold;
+    border-bottom: 3px solid rgb(136, 194, 48);
+    transition: all .6s;
+    box-shadow: 0px 4px 8px 0px rgb(0, 0, 0);
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(136, 194, 48);
         border-bottom: 3px solid #212529;
     }
 }
@@ -553,5 +570,94 @@ a:hover {
         background-image: linear-gradient(80deg, $main-red-rgb-015, transparent 50%);
     }
 
+}
+
+.table {
+    margin: 0 auto;
+    max-width: 800px;
+    width: 100%;
+    background-color: #f8f9fa;
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.651);
+    background-color: #343a40;
+    border: 1px solid #ccc;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+    color: #343a40;
+}
+
+.table th {
+    font-weight: bold;
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.table td {
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+.btn {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 3px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-danger:focus,
+.btn-danger.focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+    outline: 0;
+}
+
+.btn-restaurant2 {
+    border: none;
+    border-radius: 50px;
+    background-color: #212529;
+    color: white;
+    font-weight: bold;
+    border-bottom: 3px solid rgb(136, 194, 48);
+    transition: all .6s;
+    box-shadow: 0px 4px 8px 0px rgb(0, 0, 0);
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(136, 194, 48);
+        border-bottom: 3px solid #ffcc6a;
+    }
+}
+
+.btn-restaurant3 {
+    border: none;
+    border-radius: 50px;
+    background-color: #212529;
+    color: white;
+    font-weight: bold;
+    border-bottom: 3px solid #dd3f3f;
+    transition: all .6s;
+    box-shadow: 0px 4px 8px 0px rgb(0, 0, 0);
+
+    &:hover {
+        cursor: pointer;
+        background-color: #dd3f3f;
+        border-bottom: 3px solid #212529;
+    }
 }
 </style>
