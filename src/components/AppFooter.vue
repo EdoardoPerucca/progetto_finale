@@ -30,7 +30,7 @@ export default {
             </div>
 
             <div class="footer-right">
-                <p><strong class="text-white">Our Newsletter</strong></p>
+                <p><strong class="text-white">La nostra newsletter</strong></p>
                 <span>Tieni traccia delle nuove aperture nella tua zona.</span>
                 <div class="newsletter-input">
                     <input type="text">
@@ -38,9 +38,15 @@ export default {
                 </div>
 
                 <div class="socials">
-                    <i class="fa-brands fa-facebook-f"></i>
-                    <i class="fa-brands fa-twitter"></i>
-                    <i class="fa-brands fa-instagram"></i>
+                    <a href="">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com/carmhack">
+                        <i class="fa-brands fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/nontrovounnickname/">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
                 </div>
             </div>
         </div>

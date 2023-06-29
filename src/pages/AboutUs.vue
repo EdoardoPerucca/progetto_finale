@@ -47,6 +47,10 @@ export default {
             Andrea Pomati
             <a href="https://github.com/Andrea-Pomati"><i class="fa-brands fa-github"></i></a>
         </li>
+        <li class="m-1">
+            Il Bro
+            <a href="https://openai.com/blog/chatgpt"><i class="fa-brands fa-github"></i></a>
+        </li>
     
         
     </ul>
