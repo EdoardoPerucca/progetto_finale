@@ -23,7 +23,7 @@ export default {
             <div class="footer-center">
                 <div v-for="footerLink in store.footerLinks" class="links">
                     <p><strong class="text-white">{{ footerLink.title }}</strong></p>
-                    <ul>
+                    <ul class="p-0">
                         <li v-for="link in footerLink.links"><a href="#">{{ link }}</a></li>
                     </ul>
                 </div>
