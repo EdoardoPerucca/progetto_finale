@@ -30,7 +30,7 @@ export default {
             </div>
 
             <div class="footer-right">
-                <p><strong class="text-white">La nostra newsletter</strong></p>
+                <p><strong class="text-white">Newsletter</strong></p>
                 <span>Tieni traccia delle nuove aperture nella tua zona.</span>
                 <div class="newsletter-input">
                     <input type="text">
