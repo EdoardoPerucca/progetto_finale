@@ -19,7 +19,7 @@ export default {
   <div class="fluid-container">
     <AppHeader></AppHeader>
 
-    <routerView></routerView>
+    <routerView class="mt-5 pt-5"></routerView>
 
     <AppFooter></AppFooter>
 

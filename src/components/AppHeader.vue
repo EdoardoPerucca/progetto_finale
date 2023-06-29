@@ -13,12 +13,12 @@ export default {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg bg-dark">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-dark  fixed-top">
+        <div class="container-fluid ">
             <div class="navbar-brand" id="logo">
                 <img src="/images/logo-deliveboo.png" alt="logo">
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            <button id="nav-tog" class="navbar-toggler "  type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -41,6 +41,16 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+#nav-tog{
+    padding: var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);
+    font-size: var(--bs-navbar-toggler-font-size);
+    line-height: 1;
+    color: var(--bs-form-invalid-border-color);
+    background-color: #ffcb6a;
+    border: var(--bs-border-width) solid var(--bs-form-invalid-border-color);
+    border-radius: var(--bs-navbar-toggler-border-radius);
+    transition: var(--bs-navbar-toggler-transition);
+}
 #logo {
     padding-right: 50px;
     img {
