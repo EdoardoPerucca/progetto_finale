@@ -31,7 +31,7 @@ export default {
                         <router-link class="nav-link" :to="{ name: 'restaurant' }">Ristoranti</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <router-link class="nav-link" :to="{ name: 'AboutUs' }">About Us</router-link>
                     </li>
                 </ul>
               <a class="nav-link pe-2" href="http://127.0.0.1:8000/">Registrati</a>
