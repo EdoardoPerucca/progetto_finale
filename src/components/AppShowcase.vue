@@ -161,6 +161,7 @@ h1 {
 
 @media (max-width: 768px) {
     .showcase {
+        justify-content: center;
         padding: 1em;
         flex-direction: column;
         align-items: center;
@@ -168,7 +169,7 @@ h1 {
 
         .most-popular {
             margin-bottom: 20px;
-            max-width: 300px;
+            // max-width: 300px;
 
             img {
                 max-height: 150px;
