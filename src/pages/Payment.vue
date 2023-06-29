@@ -74,7 +74,7 @@ export default {
     
                 return location.replace('/no-reply');
                 
-            }, 2000);
+            }, 3000);
 
         },
 
@@ -113,15 +113,16 @@ export default {
 
 <template>
 
-    <router-link :to="{name: 'cart', params: {slug: this.store.restaurantNameFromLocalStorage}}" class="btn btn-primary m-3">Torna Al Carrello</router-link>
+  <div id="page-content">
 
-
-    <div class="container" id="dropin-container"></div>
+    <router-link :to="{name: 'cart', params: {slug: this.store.restaurantNameFromLocalStorage}}" class="btn btn-rest m-3">Torna Al Carrello</router-link>
+  
+  
+    <div class="container bg-dark p-5" id="dropin-container"></div>
     <div class="d-flex justify-content-center">
-        <button v-if="!isDone" id="submit-button" class=" button button--small button--green">Purchase</button>
-
+        <button v-if="!isDone" id="submit-button" class=" btn btn-rest mt-4">Purchase</button>
     </div>
-
+  
     <div class="container d-flex justify-content-center my-5">
         <div class="typewriter d-none" id="check">
             <div class="slide"><i></i></div>
@@ -130,34 +131,29 @@ export default {
         </div>
     </div>
 
+  </div>
 
-    <div class="dropdown container">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-            Contattaci...
-        </button>
-        <form class="dropdown-menu p-4" @submit.prevent="sendForm">
-            <div class="mb-3">
-                <label for="name" class="form-label">Nome</label>
-                <input type="text" id="name" class="form-control" v-model="name"/>    
-            </div>
-            <div class="mb-3">
-                <label for="Email" class="form-label">Email</label>
-                <input type="email" id="email" class="form-control" v-model="email"/>    
-            </div>
-            
-            <div class="mb-3">
-                <label for="message" class="form-label">Messaggio</label>
-                <textarea id="message" rows="10" class="form-control" v-model="messaggio"></textarea>    
-            </div>
-            <div class="mb-3"></div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
-        </form>
-    </div>
 
 </template>
 
 
 <style lang="scss" scoped>
+
+#dropin-container {
+  box-shadow: 2px 6px 3px #882222ec;
+  border-top-left-radius: 25%;
+  border-bottom-right-radius: 20%;
+}
+
+#page-content {
+  width: 100%;
+  min-height: calc(100vh - 510px);
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background-color: #ffcc6a;
+  background-image: url(https://i.ibb.co/fM5MH76/pngegg.png);
+  background-size: cover;
+}
     
     .button {
   cursor: pointer;
@@ -428,5 +424,22 @@ export default {
     box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key), 60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key), 22px 10px 0 var(--key), 37px 12px 0 var(--key), 52px 10px 0 var(--key), 60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
   }
 }
+
+.btn-rest {
+    border: none;
+    border-radius: 50px;
+    background-color: #212529;
+    color: white;
+    font-weight: bold;
+    border-bottom: 3px solid #dd3f3f;
+    transition: all .6s;
+    box-shadow: 0px 4px 8px 0px rgb(0, 0, 0);
+
+    &:hover {
+        cursor: pointer;
+        background-color: #dd3f3f;
+        border-bottom: 3px solid #212529;
+    }
+  }
 
 </style>
