@@ -186,7 +186,7 @@ export default {
             </div>
         </div>
 
-        <div class="inner-container-2">
+        <div class=" inner-container-2">
             <span v-if="this.store.cartFromLocalStorage.length == 0"></span>
             <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id"
                 class="ps-1 pb-4 text-center d-flex justify-content-center fs-2 text-danger">
@@ -258,7 +258,7 @@ export default {
 
 
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -266,7 +266,7 @@ export default {
                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Carrello</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body ">
 
                         <table
                             v-if="this.store.cartFromLocalStorage.length != 0 && this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id"
@@ -326,9 +326,21 @@ export default {
 
 
 <style lang="scss" scoped>
+@media screen and (min-width: 1900px) {
+    .inner-container-2{
+        position:fixed;
+    }
+    .background{
+     align-items: start;
+       padding-left: 40px;
+    }
+}
 .background {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    padding-left: 0px;
+    justify-content: start;
+    padding-left: 40px;
     padding-bottom: 40px;
     background-color: #ffcc6a;
     background-image: url(https://i.ibb.co/fM5MH76/pngegg.png);
@@ -341,6 +353,8 @@ export default {
     align-items: center;
     padding-top: 5em;
     gap: 20px;
+    // position: fixed;
+    right: 50px;
 }
 
 .table {
