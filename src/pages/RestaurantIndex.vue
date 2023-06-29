@@ -110,7 +110,7 @@ export default {
                 <div class="row">
                     <!-- TYPES FILTER -->
                     <div class="col-md-3 py-4">
-                        <h3 class="text-white fw-bold text-center">Filtra</h3>
+                        <h2 class="text-dark fw-bold text-center" style="text-shadow:2px 1px red;">Filtra</h2>
                         <form @submit.prevent="">
                             <ul class="list-group d-flex gap-3">
                                 <li class="list-group-item rounded-4 border-top-0 border-start-0 border-end-0 bg-dark text-white"

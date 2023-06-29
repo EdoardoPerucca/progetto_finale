@@ -36,13 +36,16 @@ export default {
     justify-content: center;
     background-image: url(/images/hero.jpg);
     background-size: cover;
+    align-items: center;
+    text-align: center;
 
     .hero-title {
         width: 100%;
         display: flex;
         flex-flow: column wrap;
         justify-content: center;
-        align-items: flex-end;
+        align-items: center;
+
         gap: 1em;
 
         h1 {
