@@ -35,7 +35,7 @@ export const store = reactive({
 
     footerLinks: [
         {
-            title: 'Informationi',
+            title: 'Informazioni',
             links: [
                 'Bookmark',
                 'Features',
