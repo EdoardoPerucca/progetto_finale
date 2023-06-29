@@ -31,7 +31,7 @@ export default {
 
 <style lang="scss" scoped>
 .hero-container {
-    height: calc(100vh - 103px);
+    height: 100vh;
     display: flex;
     justify-content: center;
     background-image: url(/images/hero.jpg);
