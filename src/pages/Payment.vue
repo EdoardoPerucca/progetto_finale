@@ -120,7 +120,7 @@ export default {
   
     <div class="container bg-dark p-5" id="dropin-container"></div>
     <div class="d-flex justify-content-center">
-        <button v-if="!isDone" id="submit-button" class=" btn btn-rest mt-4">Purchase</button>
+        <button v-if="!isDone" id="submit-button" class=" btn btn-rest mt-4">Acquista</button>
     </div>
   
     <div class="container d-flex justify-content-center my-5">
