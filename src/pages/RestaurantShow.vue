@@ -1,6 +1,6 @@
 <script>
 import axios from 'axios';
-import {store} from "../store.js";
+import { store } from "../store.js";
 
 import DishCard from '../components/DishCard.vue';
 
@@ -9,7 +9,7 @@ export default {
         return {
 
             store,
-            
+
             restaurant: {},
 
             url: 'http://127.0.0.1:8000/',
@@ -51,14 +51,14 @@ export default {
 
     methods: {
 
-        getImage(){
-           let  path = 'https://static.vecteezy.com/ti/vettori-gratis/p1/5359703-cibo-icone-pixel-perfetto-illustrazione-vettoriale.jpg'
+        getImage() {
+            let path = 'https://static.vecteezy.com/ti/vettori-gratis/p1/5359703-cibo-icone-pixel-perfetto-illustrazione-vettoriale.jpg'
             if (this.restaurant.cover_image == path) {
                 return path
             } else {
 
                 return 'http://127.0.0.1:8000/storage/' + this.restaurant.cover_image;
-                
+
             }
         },
 
@@ -70,7 +70,7 @@ export default {
 
 
             if (existingItem) {
-                
+
                 if (existingItem.quantity === 1) {
                     this.store.cartFromLocalStorage.splice(this.store.cartFromLocalStorage.indexOf(existingItem), 1);
                 } else {
@@ -93,7 +93,7 @@ export default {
 
 
             if (existingItem) {
-                
+
                 existingItem.quantity++;
 
                 this.store.totalFromLocalStorage += parseFloat(dish.price);
@@ -110,12 +110,19 @@ export default {
 
             const existingItem = this.store.cartFromLocalStorage.find(item => item.id === dish.id);
 
+            const existingItemIndex = this.store.cartFromLocalStorage.findIndex(item => item.id === dish.id);
+
 
             if (existingItem) {
 
+                /* console.log(existingItemIndex)
+
+                console.log(this.store.cartFromLocalStorage[existingItemIndex]) */
+
                 this.store.cartFromLocalStorage.splice(this.store.cartFromLocalStorage.indexOf(existingItem), 1);
 
-                this.store.totalFromLocalStorage = 0;
+                this.store.totalFromLocalStorage -= existingItem.price * existingItem.quantity;
+
                 this.store.totalFromLocalStorage = parseFloat(this.store.totalFromLocalStorage.toFixed(2));
 
                 localStorage.setItem('cart', JSON.stringify(this.store.cartFromLocalStorage));
@@ -140,7 +147,7 @@ export default {
             localStorage.setItem('restaurantName', JSON.stringify(this.store.restaurantName));
 
         },
-        
+
     }
 
 }
@@ -149,182 +156,388 @@ export default {
 
 
 <template>
-    <div class="container-fluid">
+    <div class="background">
+        <div class="inner-container-1">
+            <router-link class="btn btn-restaurant m-3" :to="{ name: 'restaurant' }">Torna indietro</router-link>
 
-        <router-link class="btn btn-primary my-3" :to="{name: 'restaurant'}">Vai indietro</router-link>
+            <div class="container-fluid d-flex justify-content-center py-2">
+                <article class="postcard dark red">
+                    <img class="postcard__img" :src="getImage()" alt="Image Title" />
+                    <div class="postcard__text">
+                        <h1 class="postcard__title red">{{ restaurant.activity_name
+                        }}
+                        </h1>
+                        <div class="postcard__subtitle small">
+                            Tel: {{ restaurant.phone_number }}
+                        </div>
+                        <div class="postcard__bar"></div>
+                        <div class="postcard__preview-txt">{{ restaurant.address }}</div>
+                        <div class="postcard__preview d-flex">
 
-        
-        <div class="card border-0 py-3 text-center">
-
-            <img :src="getImage()" class="card-img-top" alt="...">
-
-            <div class="card-body">
-
-                <h5 class="card-title">{{ restaurant.activity_name }}</h5>
-                <ul class="list-group-flush">
-
-                    <li class="list-group-item"><b>Via: </b>{{ restaurant.address }}</li>
-                    <li class="list-group-item"><b>Tel: </b>{{ restaurant.phone_number }}</li>
-                    <li class="list-group-item"><b>Tipologia: </b>
-                        <span  v-for="restaurantType in restaurant.types">
-                            {{ restaurantType.name + ', ' }}
-                        </span>
-                    </li>
-                    
-                </ul>
-
+                        </div>
+                    </div>
+                </article>
             </div>
 
+
+            <h2 class="text-center py-3 fw-bold">Piatti</h2>
+            <div class="container py-5">
+                <DishCard :dish="dish" v-for="dish in restaurant.dishes"></DishCard>
+            </div>
         </div>
 
-        
-        <h2 class="text-center py-3">Piatti:</h2>
+        <div class="inner-container-2">
+            <span v-if="this.store.cartFromLocalStorage.length == 0"></span>
+            <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id"
+                class="ps-1 pb-4 text-center d-flex justify-content-center fs-2 text-danger">
+                Hai già un carrello in un altro Ristorante: {{ this.store.cartFromLocalStorage[0].restaurant_name }} !
+            </span>
 
+            <table class="table container text-center"
+                v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Prezzo</th>
+                        <th scope="col"></th>
+                        <th scope="col">Quantità</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
+                        <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.name }}</td>
+                        <td v-if="this.restaurant.id == dish.restaurant_id">€ {{ dish.price.toFixed(2) }}</td>
+                        <td v-if="this.restaurant.id == dish.restaurant_id">
+                            <button class="btn btn-sm btn-danger me-2 fw-bold" @click="removeFromCart(dish)">
+                                -
+                            </button>
+                        </td>
+                        <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.quantity }}</td>
+                        <td v-if="this.restaurant.id == dish.restaurant_id">
+                            <button class="btn btn-sm btn-danger me-2 fw-bold" @click="addToCart(dish)">
+                                +
+                            </button>
+                        </td>
+                        <td v-if="this.restaurant.id == dish.restaurant_id">
+                            <button class="btn btn-sm btn-danger" @click="removeDishFromCart(dish)">
+                                Rimuovi
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Totale</th>
+                        <td
+                            v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">
+                            € {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
+                        <td v-else>€ 0.00</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="cart-buttons">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Vedi Carrello
+                </button>
 
-        <div class="container py-5">
-
-            <DishCard :dish="dish" v-for="dish in restaurant.dishes"></DishCard>
-            
-
+                <button
+                    v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id"
+                    type="button" class="ms-2 btn btn-danger" @click="clearCart()">
+                    Elimina Carrello
+                </button>
+                <button v-else type="button" class="ms-2 btn btn-danger disabled">
+                    Elimina Carrello
+                </button>
+            </div>
         </div>
 
-
-        <span v-if="this.store.cartFromLocalStorage.length == 0"></span>
-        <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id" class="ps-1 pb-4 text-center d-flex justify-content-center fs-2 text-danger">
-            Hai già un carrello in un altro Ristorante: {{ this.store.cartFromLocalStorage[0].restaurant_name }} !
-        </span>
-
-        <table class="table mb-4 container text-center" v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">
-            <thead>
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Prezzo</th>
-                    <th scope="col"></th>
-                    <th scope="col">Quantità</th>
-                    <th scope="col"></th>
-                    <th scope="col">Rimuovi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr  v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
-                    <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.name }}</td>
-                    <td v-if="this.restaurant.id == dish.restaurant_id">€ {{dish.price.toFixed(2)}}</td>
-                    <td v-if="this.restaurant.id == dish.restaurant_id">
-                        <button class="btn btn-sm btn-danger me-2 fw-bold" @click="removeFromCart(dish)">
-                            -
-                        </button>
-                    </td>
-                    <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.quantity }}</td>
-                    <td v-if="this.restaurant.id == dish.restaurant_id">
-                        <button class="btn btn-sm btn-danger me-2 fw-bold" @click="addToCart(dish)">
-                            +
-                        </button>
-                    </td>
-                    <td v-if="this.restaurant.id == dish.restaurant_id">
-                        <button class="btn btn-sm btn-danger" @click="removeDishFromCart(dish)">
-                            Rimuovi
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Totale</th>
-                    <td v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
-                    <td v-else>€ 0.00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            Vedi Carrello
-                        </button>
-                        
-                        <button v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" type="button" class="ms-2 btn btn-danger" @click="clearCart()">
-                            Elimina Carrello
-                        </button>
-                        <button v-else type="button" class="ms-2 btn btn-danger disabled">
-                            Elimina Carrello
-                        </button>
-
-                    </td>
-                </tr>
-            </tbody>
-        </table>
 
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Carrello</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                
-                <table v-if="this.store.cartFromLocalStorage.length != 0 && this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" class="table mb-4 container">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Prezzo</th>
-                            <th scope="col" class="text-center">Quantità</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
-                            <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.name }}</td>
-                            <td v-if="this.restaurant.id == dish.restaurant_id">€ {{dish.price}}</td>
-                            <td v-if="this.restaurant.id == dish.restaurant_id" class="text-center">{{ dish.quantity }}</td>
-                        </tr>
-                        <tr>
-                            <th>Totale</th>
-                            <td v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">€ {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
-                            <td v-else>€ 0.00</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div v-else>
-                    Il carrello è vuoto!
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Carrello</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <table
+                            v-if="this.store.cartFromLocalStorage.length != 0 && this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id"
+                            class="table mb-4 container">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Prezzo</th>
+                                    <th scope="col" class="text-center">Quantità</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(dish, index) in this.store.cartFromLocalStorage" :key="index">
+                                    <td v-if="this.restaurant.id == dish.restaurant_id">{{ dish.name }}</td>
+                                    <td v-if="this.restaurant.id == dish.restaurant_id">€ {{ dish.price }}</td>
+                                    <td v-if="this.restaurant.id == dish.restaurant_id" class="text-center">{{ dish.quantity
+                                    }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Totale</th>
+                                    <td
+                                        v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">
+                                        € {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
+                                    <td v-else>€ 0.00</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div v-else>
+                            Il carrello è vuoto!
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                        <button
+                            v-if="this.store.cartFromLocalStorage.length != 0 && this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id"
+                            type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                            <router-link @click="getRestaurantName()"
+                                :to="{ name: 'cart', params: { slug: this.restaurant.activity_name } }"
+                                class="text-white text-decoration-none">Checkout</router-link>
+                        </button>
+
+                        <button v-else type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled>
+                            <router-link :to="{ name: 'cart' }"
+                                class="text-white text-decoration-none">Checkout</router-link>
+                        </button>
+                    </div>
                 </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                <button v-if="this.store.cartFromLocalStorage.length != 0 && this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                    <router-link @click="getRestaurantName()" :to="{name: 'cart', params: {slug: this.restaurant.activity_name}}" class="text-white text-decoration-none">Checkout</router-link>
-                </button>
-
-                <button v-else type="button" class="btn btn-primary" data-bs-dismiss="modal" disabled>
-                    <router-link :to="{name: 'cart'}" class="text-white text-decoration-none">Checkout</router-link>
-                </button>
-            </div>
             </div>
         </div>
-        </div>
 
-        
+
     </div>
 </template>
 
 
 
 <style lang="scss" scoped>
-    
-    .card {
+.background {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 40px;
+    background-color: #ffcc6a;
+    background-image: url(https://i.ibb.co/fM5MH76/pngegg.png);
+    background-size: contain;
+}
 
-        img {
-            width: 100%;
-            height: 300px;
-            object-fit: contain;
+.inner-container-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5em;
+    gap: 20px;
+}
+
+.table {
+    --bs-table-color-type: initial;
+    --bs-table-bg-type: initial;
+    --bs-table-color-state: initial;
+    --bs-table-bg-state: initial;
+    --bs-table-color: var(--bs-body-color);
+    /* --bs-table-bg: var(--bs-body-bg); */
+    --bs-table-border-color: var(--bs-border-color);
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: var(--bs-body-color);
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: var(--bs-body-color);
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: var(--bs-body-color);
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    margin-bottom: 1rem;
+    vertical-align: top;
+    border-color: var(--bs-table-border-color);
+}
+
+.container {
+
+    max-width: 800px;
+    margin: 0 auto;
+
+}
+
+.btn-restaurant {
+    border: none;
+    border-radius: 50px;
+    background-color: #212529;
+    color: white;
+    font-weight: bold;
+    border-bottom: 3px solid #dd3f3f;
+    transition: all .6s;
+    box-shadow: 0px 4px 8px 0px rgb(0, 0, 0);
+
+    &:hover {
+        cursor: pointer;
+        background-color: #dd3f3f;
+        border-bottom: 3px solid #212529;
+    }
+}
+
+$main-red: #dd3f3f !default;
+$main-red-rgb-015: #212529 !default;
+
+a,
+a:hover {
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Card */
+.postcard {
+    flex-wrap: wrap;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.865);
+    margin: 0 0 2rem 0;
+    overflow: hidden;
+    position: relative;
+    color: #ffffff;
+    border: 2px solid $main-red;
+    border-radius: 30px;
+
+    &.dark {
+        background-color: #212529;
+    }
+
+    a {
+        color: inherit;
+    }
+
+    .rest-icon {
+        position: absolute;
+        left: -10px;
+        top: -25px;
+        background-color: #fcc969;
+        color: black;
+
+    }
+
+    .postcard__img {
+        max-height: 180px;
+        width: 100%;
+        object-fit: cover;
+        position: relative;
+    }
+
+    .postcard__bar {
+        width: 50px;
+        height: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        background-color: #424242;
+        transition: width 0.2s ease;
+    }
+
+    .postcard__text {
+        padding: 1.5rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .postcard__preview-txt {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: justify;
+        height: 100%;
+    }
+
+    &:hover .postcard__bar {
+        width: 100px;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .postcard {
+        flex-wrap: inherit;
+        height: 100%;
+
+        .postcard__title {
+            font-size: 1.5em;
         }
 
+        .postcard__img {
+            max-height: 100%;
+            transition: transform 0.3s ease;
+            object-fit: cover;
+        }
+
+        .postcard__text {
+            padding: 3rem;
+            width: 100%;
+        }
+
+        &:hover .postcard__img {
+            transform: scale(1.1);
+        }
+
+        &:nth-child(2n+1) {
+            flex-direction: row;
+        }
+
+        &:nth-child(2n+0) {
+            flex-direction: row-reverse;
+        }
+
+
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .postcard__text {
+        padding: 2rem 3.5rem;
     }
 
-    .container {
+}
 
-        max-width: 800px;
-        margin: 0 auto;
+/* COLORS */
 
+.postcard .postcard__tagbox .red.play:hover {
+    background: $main-red;
+}
+
+.red .postcard__title:hover {
+    color: $main-red;
+}
+
+.red .postcard__bar {
+    background-color: $main-red;
+}
+
+.red::before {
+    background-image: linear-gradient(-30deg, $main-red-rgb-015, transparent 50%);
+}
+
+.red:nth-child(2n)::before {
+    background-image: linear-gradient(30deg, $main-red-rgb-015, transparent 50%);
+}
+
+
+@media screen and (min-width: 769px) {
+
+    .red::before {
+        background-image: linear-gradient(-80deg,
+                $main-red-rgb-015,
+                transparent 50%);
     }
 
+    .red:nth-child(2n)::before {
+        background-image: linear-gradient(80deg, $main-red-rgb-015, transparent 50%);
+    }
+
+}
 </style>
