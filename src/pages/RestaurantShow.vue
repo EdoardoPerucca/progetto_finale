@@ -44,6 +44,15 @@ export default {
         })
 
     },
+    computed:{
+        sum() {
+            let total = 0;
+            this.store.cartFromLocalStorage.forEach((item) => {
+                total += item.quantity;
+            });
+            return total;
+        },
+    },
 
     components: {
         DishCard,
@@ -178,14 +187,16 @@ export default {
                     </div>
                 </article>
             </div>
-            <!-- cart  --><span v-if="this.store.cartFromLocalStorage.length == 0"></span>
-                    <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id"
-                        class="px-2 pb-4 text-center d-flex justify-content-center fs-2 text-white alert text-bg-danger rounded-pill">
-                        Hai già un carrello in un altro Ristorante: {{ this.store.cartFromLocalStorage[0].restaurant_name }} !
-                    </span>
+            <!-- cart  -->
+            <span v-if="this.store.cartFromLocalStorage.length == 0"></span>
+            <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id"
+                class="px-2 pb-4 text-center d-flex justify-content-center fs-2 text-white alert text-bg-danger rounded-pill">
+                Hai già un carrello in un altro Ristorante: {{ this.store.cartFromLocalStorage[0].restaurant_name }} !
+            </span>
             <div class="dropdown inner-container-2 z-3">
                 <button  v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" type="button" class="btn btn-restaurant2 dropdown-toggle p-3" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                     <i class="fa-solid fa-cart-shopping"></i>
+                    {{ sum }}
                 </button>
                 <div class=" dropdown-menu  p-3">
                     
@@ -230,7 +241,7 @@ export default {
                                     € {{ this.store.totalFromLocalStorage.toFixed(2) }}</td>
                                 <td v-else>€ 0.00</td>
                                 <td></td>
-                                <td></td>
+                                <td>{{ sum }}</td>
                                 <td></td>
                                 <td></td>
                             </tr>
