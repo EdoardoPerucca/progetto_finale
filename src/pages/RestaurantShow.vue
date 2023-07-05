@@ -178,17 +178,17 @@ export default {
                     </div>
                 </article>
             </div>
-            <!-- cart  -->
-            <div class="dropdown inner-container-2 z-3">
-                <button type="button" class="btn btn-restaurant2 dropdown-toggle p-3" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </button>
-                <div class=" dropdown-menu  p-3">
-                    <span v-if="this.store.cartFromLocalStorage.length == 0"></span>
+            <!-- cart  --><span v-if="this.store.cartFromLocalStorage.length == 0"></span>
                     <span v-else-if="this.store.actualRestaurantId != this.store.cartFromLocalStorage[0].restaurant_id"
                         class="px-2 pb-4 text-center d-flex justify-content-center fs-2 text-white alert text-bg-danger rounded-pill">
                         Hai già un carrello in un altro Ristorante: {{ this.store.cartFromLocalStorage[0].restaurant_name }} !
                     </span>
+            <div class="dropdown inner-container-2 z-3">
+                <button  v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id" type="button" class="btn btn-restaurant2 dropdown-toggle p-3" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </button>
+                <div class=" dropdown-menu  p-3">
+                    
         
                     <table class="table container text-center overflow-hidden rounded rounded-4  "
                         v-if="this.store.cartFromLocalStorage.length == 0 || this.store.actualRestaurantId == this.store.cartFromLocalStorage[0].restaurant_id">
@@ -357,11 +357,13 @@ export default {
     padding-top: 5em;
     gap: 20px;
     position: fixed;
-    right: 10%;
-    top: 50%;
+    right: 1%;
+    top: 3%;
+    
 }
 
 .table {
+    font-size: x-small;
     --bs-table-color-type: initial;
     --bs-table-bg-type: initial;
     --bs-table-color-state: initial;
@@ -380,10 +382,11 @@ export default {
     margin-bottom: 1rem;
     vertical-align: top;
     border-color: var(--bs-table-border-color);
+
+
 }
 
 .container {
-
     max-width: 800px;
     margin: 0 auto;
 
